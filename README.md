@@ -5,7 +5,7 @@ This is a repository of helpful tools to make Xcode development at Livefront mor
 This includes:
 * [Code Snippets](#code-snippets)
 * [New File Templates](#new-file-templates)
-* [Source Editor Extensions](#source-editor-templates)
+* [Source Editor Extensions](#source-editor-extensions)
 
 ## Code Snippets
 
