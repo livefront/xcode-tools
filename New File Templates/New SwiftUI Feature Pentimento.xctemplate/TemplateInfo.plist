@@ -34,20 +34,6 @@
 			<key>NotPersisted</key>
 			<true/>
 		</dict>
-		<dict>
-			<key>Identifier</key>
-			<string>coordinatorName</string>
-			<key>Required</key>
-			<true/>
-			<key>Name</key>
-			<string>Coordinator&apos;s Name:</string>
-			<key>Description</key>
-			<string>The name of the feature&apos;s coordinator</string>
-			<key>Type</key>
-			<string>text</string>
-			<key>NotPersisted</key>
-			<true/>
-		</dict>
 	</array>
 </dict>
 </plist>

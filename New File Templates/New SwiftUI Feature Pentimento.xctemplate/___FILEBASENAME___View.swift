@@ -1,3 +1,5 @@
+// MARK: - ___VARIABLE_productName:identifier___View
+
 import SwiftUI
 /// A view that <#description#>.
 ///
