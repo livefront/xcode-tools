@@ -1,6 +1,8 @@
 // MARK: - ___VARIABLE_productName:identifier___Processor
 
-/// The `___VARIABLE_productName:identifier___Processor` receives `___VARIABLE_productName:identifier___Action` values from a view, and makes appropriate changes to the `___VARIABLE_productName:identifier___State`. <#Describe the feature, it's roll, and location within the app.#>
+/// The `___VARIABLE_productName:identifier___Processor` receives `___VARIABLE_productName:identifier___Action`
+/// values from a view, and makes appropriate changes to the `___VARIABLE_productName:identifier___State`.
+///  <#Describe the feature, it's roll, and location within the app.#>
 final class ___VARIABLE_productName:identifier___Processor: StateProcessor<___VARIABLE_productName:identifier___Action, ___VARIABLE_productName:identifier___State, ___VARIABLE_productName:identifier___Effect> {
     typealias Services =
         <#Service Types#>
