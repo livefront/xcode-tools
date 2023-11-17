@@ -1,0 +1,680 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8B686ED92AF4B9770030DA0C /* LivefrontDevToolsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B686ED82AF4B9770030DA0C /* LivefrontDevToolsApp.swift */; };
+		8B686EDB2AF4B9770030DA0C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B686EDA2AF4B9770030DA0C /* ContentView.swift */; };
+		8B686EDD2AF4B9780030DA0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B686EDC2AF4B9780030DA0C /* Assets.xcassets */; };
+		8B686EE02AF4B9780030DA0C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B686EDF2AF4B9780030DA0C /* Preview Assets.xcassets */; };
+		8B686EEB2AF4B9780030DA0C /* LivefrontDevToolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B686EEA2AF4B9780030DA0C /* LivefrontDevToolsTests.swift */; };
+		8B686F202AF4BAC90030DA0C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B686F092AF4BA370030DA0C /* Cocoa.framework */; };
+		8B686F242AF4BAC90030DA0C /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B686F232AF4BAC90030DA0C /* SourceEditorExtension.swift */; };
+		8B686F262AF4BAC90030DA0C /* FormatCommentsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B686F252AF4BAC90030DA0C /* FormatCommentsCommand.swift */; };
+		8B686F2B2AF4BAC90030DA0C /* Livefront.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8B686F1F2AF4BAC90030DA0C /* Livefront.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8BB9DC882AF4BD7E00ED1EF0 /* XcodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B686F0B2AF4BA370030DA0C /* XcodeKit.framework */; };
+		8BB9DC892AF4BD7E00ED1EF0 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B686F0B2AF4BA370030DA0C /* XcodeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8BB9DC8D2AF4C1C600ED1EF0 /* CommentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 8BB9DC8C2AF4C1C600ED1EF0 /* CommentParser */; };
+		8BDA518C2B070CEE0052AC07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA518B2B070CEE0052AC07 /* AppDelegate.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8B686EE72AF4B9780030DA0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B686ECD2AF4B9770030DA0C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B686ED42AF4B9770030DA0C;
+			remoteInfo = LivefrontDevTools;
+		};
+		8B686F292AF4BAC90030DA0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B686ECD2AF4B9770030DA0C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B686F1E2AF4BAC90030DA0C;
+			remoteInfo = SourceEditorExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8B686F1A2AF4BA370030DA0C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8B686F2B2AF4BAC90030DA0C /* Livefront.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BB9DC8A2AF4BD7E00ED1EF0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8BB9DC892AF4BD7E00ED1EF0 /* XcodeKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8B686ED52AF4B9770030DA0C /* Livefront Developer Tools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Livefront Developer Tools.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B686ED82AF4B9770030DA0C /* LivefrontDevToolsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivefrontDevToolsApp.swift; sourceTree = "<group>"; };
+		8B686EDA2AF4B9770030DA0C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8B686EDC2AF4B9780030DA0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8B686EDF2AF4B9780030DA0C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8B686EE12AF4B9780030DA0C /* LivefrontDevTools.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LivefrontDevTools.entitlements; sourceTree = "<group>"; };
+		8B686EE62AF4B9780030DA0C /* LivefrontDevToolsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LivefrontDevToolsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B686EEA2AF4B9780030DA0C /* LivefrontDevToolsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivefrontDevToolsTests.swift; sourceTree = "<group>"; };
+		8B686F092AF4BA370030DA0C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		8B686F0B2AF4BA370030DA0C /* XcodeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XcodeKit.framework; path = Library/Frameworks/XcodeKit.framework; sourceTree = DEVELOPER_DIR; };
+		8B686F1F2AF4BAC90030DA0C /* Livefront.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Livefront.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B686F232AF4BAC90030DA0C /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
+		8B686F252AF4BAC90030DA0C /* FormatCommentsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatCommentsCommand.swift; sourceTree = "<group>"; };
+		8B686F272AF4BAC90030DA0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B686F282AF4BAC90030DA0C /* SourceEditorExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SourceEditorExtension.entitlements; sourceTree = "<group>"; };
+		8BB9DC8B2AF4C14C00ED1EF0 /* CommentParser */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CommentParser; sourceTree = "<group>"; };
+		8BDA518B2B070CEE0052AC07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8B686ED22AF4B9770030DA0C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B686EE32AF4B9780030DA0C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B686F1C2AF4BAC90030DA0C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B686F202AF4BAC90030DA0C /* Cocoa.framework in Frameworks */,
+				8BB9DC8D2AF4C1C600ED1EF0 /* CommentParser in Frameworks */,
+				8BB9DC882AF4BD7E00ED1EF0 /* XcodeKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8B686ECC2AF4B9770030DA0C = {
+			isa = PBXGroup;
+			children = (
+				8BB9DC8B2AF4C14C00ED1EF0 /* CommentParser */,
+				8B686ED72AF4B9770030DA0C /* LivefrontDevTools */,
+				8B686EE92AF4B9780030DA0C /* LivefrontDevToolsTests */,
+				8B686F222AF4BAC90030DA0C /* SourceEditorExtension */,
+				8B686F082AF4BA370030DA0C /* Frameworks */,
+				8B686ED62AF4B9770030DA0C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8B686ED62AF4B9770030DA0C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8B686ED52AF4B9770030DA0C /* Livefront Developer Tools.app */,
+				8B686EE62AF4B9780030DA0C /* LivefrontDevToolsTests.xctest */,
+				8B686F1F2AF4BAC90030DA0C /* Livefront.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8B686ED72AF4B9770030DA0C /* LivefrontDevTools */ = {
+			isa = PBXGroup;
+			children = (
+				8BDA518B2B070CEE0052AC07 /* AppDelegate.swift */,
+				8B686EDC2AF4B9780030DA0C /* Assets.xcassets */,
+				8B686EDA2AF4B9770030DA0C /* ContentView.swift */,
+				8B686EE12AF4B9780030DA0C /* LivefrontDevTools.entitlements */,
+				8B686ED82AF4B9770030DA0C /* LivefrontDevToolsApp.swift */,
+				8B686EDE2AF4B9780030DA0C /* Preview Content */,
+			);
+			path = LivefrontDevTools;
+			sourceTree = "<group>";
+		};
+		8B686EDE2AF4B9780030DA0C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				8B686EDF2AF4B9780030DA0C /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8B686EE92AF4B9780030DA0C /* LivefrontDevToolsTests */ = {
+			isa = PBXGroup;
+			children = (
+				8B686EEA2AF4B9780030DA0C /* LivefrontDevToolsTests.swift */,
+			);
+			path = LivefrontDevToolsTests;
+			sourceTree = "<group>";
+		};
+		8B686F082AF4BA370030DA0C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B686F092AF4BA370030DA0C /* Cocoa.framework */,
+				8B686F0B2AF4BA370030DA0C /* XcodeKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8B686F222AF4BAC90030DA0C /* SourceEditorExtension */ = {
+			isa = PBXGroup;
+			children = (
+				8B686F232AF4BAC90030DA0C /* SourceEditorExtension.swift */,
+				8B686F252AF4BAC90030DA0C /* FormatCommentsCommand.swift */,
+				8B686F272AF4BAC90030DA0C /* Info.plist */,
+				8B686F282AF4BAC90030DA0C /* SourceEditorExtension.entitlements */,
+			);
+			path = SourceEditorExtension;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8B686ED42AF4B9770030DA0C /* LivefrontDevTools */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B686EFA2AF4B9780030DA0C /* Build configuration list for PBXNativeTarget "LivefrontDevTools" */;
+			buildPhases = (
+				8B686ED12AF4B9770030DA0C /* Sources */,
+				8B686ED22AF4B9770030DA0C /* Frameworks */,
+				8B686ED32AF4B9770030DA0C /* Resources */,
+				8B686F1A2AF4BA370030DA0C /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8B686F2A2AF4BAC90030DA0C /* PBXTargetDependency */,
+			);
+			name = LivefrontDevTools;
+			productName = LivefrontDevTools;
+			productReference = 8B686ED52AF4B9770030DA0C /* Livefront Developer Tools.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8B686EE52AF4B9780030DA0C /* LivefrontDevToolsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B686EFD2AF4B9780030DA0C /* Build configuration list for PBXNativeTarget "LivefrontDevToolsTests" */;
+			buildPhases = (
+				8B686EE22AF4B9780030DA0C /* Sources */,
+				8B686EE32AF4B9780030DA0C /* Frameworks */,
+				8B686EE42AF4B9780030DA0C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8B686EE82AF4B9780030DA0C /* PBXTargetDependency */,
+			);
+			name = LivefrontDevToolsTests;
+			productName = LivefrontDevToolsTests;
+			productReference = 8B686EE62AF4B9780030DA0C /* LivefrontDevToolsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8B686F1E2AF4BAC90030DA0C /* Livefront */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B686F2C2AF4BAC90030DA0C /* Build configuration list for PBXNativeTarget "Livefront" */;
+			buildPhases = (
+				8B686F1B2AF4BAC90030DA0C /* Sources */,
+				8B686F1C2AF4BAC90030DA0C /* Frameworks */,
+				8B686F1D2AF4BAC90030DA0C /* Resources */,
+				8BB9DC8A2AF4BD7E00ED1EF0 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Livefront;
+			packageProductDependencies = (
+				8BB9DC8C2AF4C1C600ED1EF0 /* CommentParser */,
+			);
+			productName = SourceEditorExtension;
+			productReference = 8B686F1F2AF4BAC90030DA0C /* Livefront.appex */;
+			productType = "com.apple.product-type.xcode-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8B686ECD2AF4B9770030DA0C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					8B686ED42AF4B9770030DA0C = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					8B686EE52AF4B9780030DA0C = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 8B686ED42AF4B9770030DA0C;
+					};
+					8B686F1E2AF4BAC90030DA0C = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 8B686ED02AF4B9770030DA0C /* Build configuration list for PBXProject "LivefrontDevTools" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8B686ECC2AF4B9770030DA0C;
+			productRefGroup = 8B686ED62AF4B9770030DA0C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8B686ED42AF4B9770030DA0C /* LivefrontDevTools */,
+				8B686EE52AF4B9780030DA0C /* LivefrontDevToolsTests */,
+				8B686F1E2AF4BAC90030DA0C /* Livefront */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8B686ED32AF4B9770030DA0C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B686EE02AF4B9780030DA0C /* Preview Assets.xcassets in Resources */,
+				8B686EDD2AF4B9780030DA0C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B686EE42AF4B9780030DA0C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B686F1D2AF4BAC90030DA0C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8B686ED12AF4B9770030DA0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BDA518C2B070CEE0052AC07 /* AppDelegate.swift in Sources */,
+				8B686EDB2AF4B9770030DA0C /* ContentView.swift in Sources */,
+				8B686ED92AF4B9770030DA0C /* LivefrontDevToolsApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B686EE22AF4B9780030DA0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B686EEB2AF4B9780030DA0C /* LivefrontDevToolsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B686F1B2AF4BAC90030DA0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B686F242AF4BAC90030DA0C /* SourceEditorExtension.swift in Sources */,
+				8B686F262AF4BAC90030DA0C /* FormatCommentsCommand.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8B686EE82AF4B9780030DA0C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B686ED42AF4B9770030DA0C /* LivefrontDevTools */;
+			targetProxy = 8B686EE72AF4B9780030DA0C /* PBXContainerItemProxy */;
+		};
+		8B686F2A2AF4BAC90030DA0C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B686F1E2AF4BAC90030DA0C /* Livefront */;
+			targetProxy = 8B686F292AF4BAC90030DA0C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		8B686EF82AF4B9780030DA0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8B686EF92AF4B9780030DA0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		8B686EFB2AF4B9780030DA0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LivefrontDevTools/LivefrontDevTools.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LivefrontDevTools/Preview Content\"";
+				DEVELOPMENT_TEAM = Q6SZ37AHX7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevTools;
+				PRODUCT_NAME = "Livefront Developer Tools";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8B686EFC2AF4B9780030DA0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LivefrontDevTools/LivefrontDevTools.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LivefrontDevTools/Preview Content\"";
+				DEVELOPMENT_TEAM = Q6SZ37AHX7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevTools;
+				PRODUCT_NAME = "Livefront Developer Tools";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8B686EFE2AF4B9780030DA0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q6SZ37AHX7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevToolsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LivefrontDevTools.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LivefrontDevTools";
+			};
+			name = Debug;
+		};
+		8B686EFF2AF4B9780030DA0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q6SZ37AHX7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevToolsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LivefrontDevTools.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LivefrontDevTools";
+			};
+			name = Release;
+		};
+		8B686F2D2AF4BAC90030DA0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SourceEditorExtension/SourceEditorExtension.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q6SZ37AHX7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SourceEditorExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Livefront;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevTools.SourceEditorExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8B686F2E2AF4BAC90030DA0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SourceEditorExtension/SourceEditorExtension.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q6SZ37AHX7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SourceEditorExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Livefront;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevTools.SourceEditorExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8B686ED02AF4B9770030DA0C /* Build configuration list for PBXProject "LivefrontDevTools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B686EF82AF4B9780030DA0C /* Debug */,
+				8B686EF92AF4B9780030DA0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B686EFA2AF4B9780030DA0C /* Build configuration list for PBXNativeTarget "LivefrontDevTools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B686EFB2AF4B9780030DA0C /* Debug */,
+				8B686EFC2AF4B9780030DA0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B686EFD2AF4B9780030DA0C /* Build configuration list for PBXNativeTarget "LivefrontDevToolsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B686EFE2AF4B9780030DA0C /* Debug */,
+				8B686EFF2AF4B9780030DA0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B686F2C2AF4BAC90030DA0C /* Build configuration list for PBXNativeTarget "Livefront" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B686F2D2AF4BAC90030DA0C /* Debug */,
+				8B686F2E2AF4BAC90030DA0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8BB9DC8C2AF4C1C600ED1EF0 /* CommentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CommentParser;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 8B686ECD2AF4B9770030DA0C /* Project object */;
+}
