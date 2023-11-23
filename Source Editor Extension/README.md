@@ -17,11 +17,12 @@ It's commands are grouped in the "Livefront" submenu of the Xcode editor menu.
 
 ## Installation
 1. Move `Livefront Developer Tools.app` to your `Applications` folder.
-2. Run the app to register the extension with macOS.
-3. Go to `System Settings > Privacy & Security > Extensions > Xcode Source Editor`.
-4. Check the box for `Livefront`.
-5. Open Xcode.
-6. Go to `Editor > Livefront` to use the new source editor commands.
+2. Run the app once to register the extension with macOS.
+3. Close the app.
+4. Go to `System Settings > Privacy & Security > Extensions > Xcode Source Editor`.
+5. Check the box for `Livefront`.
+6. Open Xcode.
+7. Go to `Editor > Livefront` to use the new source editor commands.
 
 ## Commands
 - **Format Comments**: Formats the comments of a whole file or selection of lines to match Livefront's Swift comment style guidelines. 
