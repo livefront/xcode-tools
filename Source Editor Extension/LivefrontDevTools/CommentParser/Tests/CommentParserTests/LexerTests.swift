@@ -15,6 +15,15 @@ final class LexerTests: XCTestCase {
             )
         )
 
+        // Extra slashes typo
+        XCTAssertEqual(
+            Lexer.lineType("//////", lineNumber: 0, targetRanges: [0...1]),
+            .headerCommentBlank(
+                targeted: true,
+                text: "//////"
+            )
+        )
+
         // Not targeted
         XCTAssertEqual(
             Lexer.lineType("///", lineNumber: 10, targetRanges: [0...1]),
@@ -44,6 +53,36 @@ final class LexerTests: XCTestCase {
                 tokens: ["Token"],
                 targeted: true,
                 text: "/// Token"
+            )
+        )
+
+        // Missing space typo
+        XCTAssertEqual(
+            Lexer.lineType("///Token", lineNumber: 0, targetRanges: [0...1]),
+            .headerCommentGeneral(
+                tokens: ["Token"],
+                targeted: true,
+                text: "///Token"
+            )
+        )
+
+        // Extra slashes typo
+        XCTAssertEqual(
+            Lexer.lineType("///// Token", lineNumber: 0, targetRanges: [0...1]),
+            .headerCommentGeneral(
+                tokens: ["Token"],
+                targeted: true,
+                text: "///// Token"
+            )
+        )
+
+        // Missing space plus extra slashes typo
+        XCTAssertEqual(
+            Lexer.lineType("/////Token", lineNumber: 0, targetRanges: [0...1]),
+            .headerCommentGeneral(
+                tokens: ["Token"],
+                targeted: true,
+                text: "/////Token"
             )
         )
 
@@ -289,6 +328,16 @@ final class LexerTests: XCTestCase {
                 tokens: ["Token"],
                 targeted: true,
                 text: "// Token"
+            )
+        )
+
+        // Missing space typo
+        XCTAssertEqual(
+            Lexer.lineType("//Token", lineNumber: 0, targetRanges: [0...1]),
+            .inlineCommentGeneral(
+                tokens: ["Token"],
+                targeted: true,
+                text: "//Token"
             )
         )
 

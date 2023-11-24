@@ -77,6 +77,37 @@ final class CommentParserTests: XCTestCase {
         verifyFormat(input: input, expected: expected, targetRanges: [])
     }
 
+    /// A header comment with long general text, discussion, parameters, return, missing spaces
+    /// after all the slashes, and extra slashes should all wrap and format as expected.
+    func testHeaderCommentFullMissingSpaces() {
+        let input = """
+////This is general comment text that will have to wrap to multiple lines even when it is indented all the way to the left.
+///- Parameters:
+////- paramA: This is parameter A's description.
+/////It will have to wrap even when it is indented all the way to the left.
+///- paramB: This is parameter B's description.
+////- Returns: This is the description of the return value.
+///It will have to wrap even when it is indented all the way to the left.
+////
+///This is a discussion block that will be formatted separately from the general comment text because there is a blank line between them.
+"""
+        let expected = """
+/// This is general comment text that will have to wrap to multiple lines even when it is indented
+/// all the way to the left.
+///
+/// - Parameters:
+///   - paramA: This is parameter A's description. It will have to wrap even when it is indented all
+///     the way to the left.
+///   - paramB: This is parameter B's description.
+/// - Returns: This is the description of the return value. It will have to wrap even when it is
+///   indented all the way to the left.
+///
+/// This is a discussion block that will be formatted separately from the general comment text
+/// because there is a blank line between them.
+"""
+        verifyFormat(input: input, expected: expected, targetRanges: [])
+    }
+
     /// A long general header comment should wrap to multiple lines.
     func testHeaderCommentGeneralLong() {
         let input = """
@@ -299,6 +330,19 @@ final class CommentParserTests: XCTestCase {
         verifyFormat(input: input, expected: expected, targetRanges: [])
     }
 
+    /// A long in-line comment missing a space after the slashes should wrap to multiple lines and
+    /// gain the expected spacing.
+    func testInlineCommentLongMissingSpace() throws {
+        let input = """
+//This is a simple in-line comment. It will have to wrap even when it is indented all the way to the left.
+"""
+        let expected = """
+// This is a simple in-line comment. It will have to wrap even when it is indented all the way to
+// the left.
+"""
+        verifyFormat(input: input, expected: expected, targetRanges: [])
+    }
+
     /// A short in-line comment should not wrap.
     func testInlineCommentShort() throws {
         let input = """
@@ -325,7 +369,7 @@ final class CommentParserTests: XCTestCase {
     func testMixedCommentComplex() {
         let input = """
 /// This is general comment text that will have to wrap to multiple lines even when it is indented all the way to the left.
-/// This is more of the general comment text.
+///This is more of the general comment text.
 //
 /// This is a discussion block that will be formatted separately from the general comment text because there is a blank line between them.
 /// - Returns: This will appear at the beginning of the return description.
@@ -374,7 +418,7 @@ no comment
 //
 ///
 
-// Inline mode ignores
+//Inline mode ignores
 // parameter header.
 /// - Parameters:
 

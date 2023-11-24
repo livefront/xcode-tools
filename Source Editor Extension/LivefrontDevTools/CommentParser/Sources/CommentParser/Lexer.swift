@@ -20,9 +20,28 @@ enum Lexer {
         let targeted = targetRanges.isEmpty || targetRanges.contains { $0.contains(lineNumber) }
 
         // Split line by whitespace into tokens.
-        let tokens = text
+        var tokens = text
             .components(separatedBy: .whitespacesAndNewlines)
             .filter { !$0.isEmpty }
+
+        // Detect and correct a missing space after comment slashes.
+        if tokens.first?.starts(with: "//") ?? false {
+            let originalFirstToken = tokens.removeFirst()
+
+            // Remove all leading slashes from the token and insert the remaining string as a
+            // separate token.
+            if let firstNonSlashIndex = originalFirstToken.firstIndex(where: { $0 != "/" }) {
+                let remainder = String(originalFirstToken.suffix(from: firstNonSlashIndex))
+                tokens.insert(remainder, at: 0)
+            }
+
+            // Add back the slashes.
+            if originalFirstToken.starts(with: "///") {
+                tokens.insert("///", at: 0)
+            } else {
+                tokens.insert("//", at: 0)
+            }
+        }
 
         // Detect the beginning of a return block.
         // Ex: /// - Returns: …
