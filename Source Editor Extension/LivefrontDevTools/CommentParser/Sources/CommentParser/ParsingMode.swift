@@ -41,5 +41,5 @@ enum ParsingMode {
     case inlineComment(currentTokens: [String])
 
     /// Parsing a non-comment section of the source code.
-    case noComment
+    case nonComment
 }

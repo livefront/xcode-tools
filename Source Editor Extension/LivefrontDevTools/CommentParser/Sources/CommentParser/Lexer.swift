@@ -122,6 +122,6 @@ enum Lexer {
         }
 
         // Default to a non-comment line of source code.
-        return .noComment(text: text)
+        return .nonComment(text: text)
     }
 }

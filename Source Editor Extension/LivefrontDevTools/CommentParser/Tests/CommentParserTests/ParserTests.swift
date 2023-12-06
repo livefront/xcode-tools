@@ -412,7 +412,7 @@ not a comment
 still not a comment
 
 ///  - paramA: This is parameter A's description.
-no comment
+non comment
 
 // Inline becomes header description.
 //
@@ -459,7 +459,7 @@ still not a comment
 
 /// - Parameter paramA: This is parameter A's description.
 ///
-no comment
+non comment
 
 /// Inline becomes header description.
 
@@ -496,7 +496,7 @@ no comment
 ///     It will have to wrap even when it is indented all the way to the left.
 
 ///  - paramA: This is parameter A's description.
-no comment
+non comment
 
 // Inline becomes header description.
 //
@@ -523,7 +523,7 @@ no comment
 /// Discussion
 
 ///  - paramA: This is parameter A's description.
-no comment
+non comment
 
 /// Inline becomes header description.
 

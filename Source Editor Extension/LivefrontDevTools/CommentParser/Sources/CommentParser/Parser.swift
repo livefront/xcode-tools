@@ -27,7 +27,7 @@ public class Parser {
 
     /// The current parsing mode. The mode indicates the type of data being parsed in the recently
     /// supplied lines.
-    private var mode: ParsingMode = .noComment
+    private var mode: ParsingMode = .nonComment
 
     /// The final output text.
     private var output = [String]()
@@ -97,10 +97,10 @@ public class Parser {
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
             mode = .headerCommentDiscussion(currentTokens: currentTokens + tokens)
-        case let (.headerCommentDiscussion, .noComment(text)):
+        case let (.headerCommentDiscussion, .nonComment(text)):
             finalizeCommentBlock(paddingGuide: text)
             output.append(text)
-            mode = .noComment
+            mode = .nonComment
 
         // Header Comment General Mode
         case let (.headerCommentGeneral(currentTokens), .headerCommentBlank(targeted, text)):
@@ -131,10 +131,10 @@ public class Parser {
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
             mode = .headerCommentGeneral(currentTokens: currentTokens + tokens)
-        case let (.headerCommentGeneral, .noComment(text)):
+        case let (.headerCommentGeneral, .nonComment(text)):
             finalizeCommentBlock(paddingGuide: text)
             output.append(text)
-            mode = .noComment
+            mode = .nonComment
 
         // Header Comment Parameter Mode
         case let (.headerCommentParameter(currentName, currentTokens), .headerCommentBlank(targeted, text)):
@@ -165,10 +165,10 @@ public class Parser {
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
             mode = .headerCommentParameter(currentName: currentName, currentTokens: currentTokens + tokens)
-        case let (.headerCommentParameter, .noComment(text)):
+        case let (.headerCommentParameter, .nonComment(text)):
             finalizeCommentBlock(paddingGuide: text)
             output.append(text)
-            mode = .noComment
+            mode = .nonComment
 
         // Header Comment Return Mode
         case let (.headerCommentReturn(currentTokens), .headerCommentBlank(targeted, text)):
@@ -199,10 +199,10 @@ public class Parser {
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
             mode = .headerCommentReturn(currentTokens: currentTokens + tokens)
-        case let (.headerCommentReturn, .noComment(text)):
+        case let (.headerCommentReturn, .nonComment(text)):
             finalizeCommentBlock(paddingGuide: text)
             output.append(text)
-            mode = .noComment
+            mode = .nonComment
 
         // Inline Comment Mode
         case let (.inlineComment(currentTokens), .headerCommentBlank(targeted, text)):
@@ -234,40 +234,40 @@ public class Parser {
         case let (.inlineComment(currentTokens), .inlineCommentGeneral(tokens, targeted, text)):
             commonCommentHandling(targeted: targeted, text: text)
             mode = .inlineComment(currentTokens: currentTokens + tokens)
-        case let (.inlineComment, .noComment(text)):
+        case let (.inlineComment, .nonComment(text)):
             finalizeCommentBlock(paddingGuide: text)
             output.append(text)
-            mode = .noComment
+            mode = .nonComment
 
-        // No Comment Mode
-        case let (.noComment, .headerCommentBlank(targeted, text)):
+        // Non Comment Mode
+        case let (.nonComment, .headerCommentBlank(targeted, text)):
             commonCommentHandling(targeted: targeted, text: text)
             fallbackPaddingGuide = text
             mode = .headerCommentGeneral(currentTokens: [])
-        case let (.noComment, .headerCommentGeneral(tokens, targeted, text)):
+        case let (.nonComment, .headerCommentGeneral(tokens, targeted, text)):
             commonCommentHandling(targeted: targeted, text: text)
             fallbackPaddingGuide = text
             mode = .headerCommentGeneral(currentTokens: tokens)
-        case let (.noComment, .headerCommentMultiParameterHeader(targeted, text)):
+        case let (.nonComment, .headerCommentMultiParameterHeader(targeted, text)):
             commonCommentHandling(targeted: targeted, text: text)
             fallbackPaddingGuide = text
-        case let (.noComment, .headerCommentParameterStart(name, tokens, targeted, text)):
+        case let (.nonComment, .headerCommentParameterStart(name, tokens, targeted, text)):
             commonCommentHandling(targeted: targeted, text: text)
             fallbackPaddingGuide = text
             mode = .headerCommentParameter(currentName: name, currentTokens: tokens)
-        case let (.noComment, .headerCommentReturnStart(tokens, targeted, text)):
+        case let (.nonComment, .headerCommentReturnStart(tokens, targeted, text)):
             commonCommentHandling(targeted: targeted, text: text)
             fallbackPaddingGuide = text
             mode = .headerCommentReturn(currentTokens: tokens)
-        case let (.noComment, .inlineCommentBlank(targeted, text)):
+        case let (.nonComment, .inlineCommentBlank(targeted, text)):
             commonCommentHandling(targeted: targeted, text: text)
             fallbackPaddingGuide = text
             mode = .inlineComment(currentTokens: [])
-        case let (.noComment, .inlineCommentGeneral(tokens, targeted, text)):
+        case let (.nonComment, .inlineCommentGeneral(tokens, targeted, text)):
             commonCommentHandling(targeted: targeted, text: text)
             fallbackPaddingGuide = text
             mode = .inlineComment(currentTokens: tokens)
-        case let (.noComment, .noComment(text)):
+        case let (.nonComment, .nonComment(text)):
             output.append(text)
         }
     }
@@ -300,7 +300,7 @@ public class Parser {
             fallbackPaddingGuide = nil
             generalTokens = []
             isTargetedComment = false
-            mode = .noComment
+            mode = .nonComment
             parameters = []
             returnValue = nil
         }
@@ -323,7 +323,7 @@ public class Parser {
             parameters.append(Parameter(name: currentName, tokens: currentTokens))
         case let .headerCommentReturn(currentTokens):
             returnValue = Return(tokens: currentTokens)
-        case .noComment:
+        case .nonComment:
             break
         }
 
@@ -340,7 +340,7 @@ public class Parser {
             prefix = padding + "///"
         case .inlineComment:
             prefix = padding + "//"
-        case .noComment:
+        case .nonComment:
             prefix = ""
         }
 

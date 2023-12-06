@@ -63,5 +63,5 @@ enum LineType: Equatable {
     /// - Parameters:
     ///   - text: The original unmodified line of text.
     ///
-    case noComment(text: String)
+    case nonComment(text: String)
 }

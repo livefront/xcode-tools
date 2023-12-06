@@ -362,11 +362,11 @@ final class LexerTests: XCTestCase {
         )
     }
 
-    /// A non-comment line of source code should be interpreted as `LineType.noComment`.
-    func testNoComment() {
+    /// A non-comment line of source code should be interpreted as `LineType.nonComment`.
+    func testNonComment() {
         XCTAssertEqual(
             Lexer.lineType("Text", lineNumber: 0, targetRanges: [0...1]),
-            .noComment(
+            .nonComment(
                 text: "Text"
             )
         )
