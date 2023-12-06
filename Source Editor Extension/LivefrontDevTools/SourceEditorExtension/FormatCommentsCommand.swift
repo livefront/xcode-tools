@@ -8,13 +8,10 @@ class FormatCommentsCommand: NSObject, XCSourceEditorCommand {
         completionHandler: @escaping (Error?) -> Void
     ) -> Void {
         // Build an array of closed line index ranges from the XCSourceTextRange selections.
-        let selections: [ClosedRange<Int>] = invocation.buffer.selections.compactMap { selection in
-            guard let range = selection as? XCSourceTextRange,
-                  range.start != range.end else {
-                return nil
-            }
-            return range.start.line...range.end.line
-        }
+        let selections: [ClosedRange<Int>] = invocation.buffer.selections
+            .compactMap { $0 as? XCSourceTextRange }
+            .filter { $0.start != $0.end }
+            .map { $0.start.line...$0.end.line }
 
         // Initialize the parser with the selected target ranges.
         let parser = Parser(targetRanges: selections)
