@@ -1,4 +1,8 @@
+/// The maximum number of characters a line of source code is typically allowed to have.
+private let lineLengthLimit = 100
+
 extension Array where Element == String {
+
     /// Formats an array of string tokens in the style of a general comment block of text.
     ///
     /// - Parameter prefix: A string added to the beginning of each line of text.
@@ -13,7 +17,7 @@ extension Array where Element == String {
     }
 
     /// Combines the array of string tokens into a single block of text. The trailing edge of the
-    /// block should attempt to stay under 100 characters if possible.
+    /// block should attempt to stay under line length limit if possible.
     ///
     /// - Parameters:
     ///   - prefix: A string added to the beginning of each line of text.
@@ -33,7 +37,7 @@ extension Array where Element == String {
         for token in self {
             if currentLine == currentCombinedPrefix {
                 currentLine = currentLine + token
-            } else if (currentLine + " " + token).count <= 100 {
+            } else if (currentLine + " " + token).count <= lineLengthLimit {
                 currentLine = currentLine + " " + token
             } else {
                 lines.append(currentLine)

@@ -19,7 +19,7 @@ final class ArrayFormattingTests: XCTestCase {
 
     /// `formattedLines` should apply line-wrapping formatting with the given prefix on each line,
     /// the given start text for the first line, and the given additional line start text on each
-    /// additional line. Lines should be limited to 100 characters in length, if possible.
+    /// additional line. Lines should be limited to the line length limit, if possible.
     func testFormattedLines() {
         let result = tokens(count: 100).formattedLines(
             prefix: "[prefix]",
@@ -45,7 +45,7 @@ final class ArrayFormattingTests: XCTestCase {
     }
     
     /// `formattedLines` should include at least one token on each line even when lines exceed the
-    /// 100 character limit.
+    /// line length limit.
     func testFormattedLinesPastLimit() {
         let result = tokens(count: 5).formattedLines(
             prefix: 

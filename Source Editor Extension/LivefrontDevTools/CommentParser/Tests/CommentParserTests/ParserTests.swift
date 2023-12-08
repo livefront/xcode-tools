@@ -261,7 +261,7 @@ final class CommentParserTests: XCTestCase {
         verifyFormat(input: input, expected: expected, targetRanges: [])
     }
 
-    /// Comments that are indented past the 100 character limit should respect their original
+    /// Comments that are indented past the line length limit should respect their original
     /// indentation and each wrapped line should include at least one token.
     func testIndentationBeyondLimit() {
         let input = """
