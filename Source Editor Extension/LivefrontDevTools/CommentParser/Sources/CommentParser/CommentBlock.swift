@@ -7,32 +7,53 @@ struct CommentBlock {
     /// unformatted lines in the event that the comment block is not targeted for formatting.
     var buffer = [String]()
 
+    /// The tokens for the return description of the comment block.
+    var returnTokens = [String]()
+
+    // MARK: Private Properties
+
     /// The tokens for the discussion section of the comment block.
-    var discussionTokens = [String]()
+    private var discussionTokens = [String]()
 
     /// The tokens for the general description section of the comment block.
-    var generalTokens = [String]()
+    private var generalTokens = [String]()
 
     /// `true` iff the comment block should be formatted.
-    var isTargeted = false
+    private var isTargeted = false
 
     /// The parameters of the comment block.
-    var parameters = [Parameter]()
-
-    /// The return value of the comment block.
-    var returnValue: Return?
+    private var parameters = [Parameter]()
 
     // MARK: Instance Methods
 
-    /// Perform parsing common to all comment line types.
+    /// Perform parsing common to all comment line types. The unaltered text is saved in a buffer in
+    /// case the comment block is not targeted for formatting.
     ///
     /// - Parameters:
     ///   - targeted: `true` iff this line was contained in a selection range.
     ///   - text: The original unmodified line of text.
     ///
-    mutating func addCommentLine(targeted: Bool, text: String) {
+    mutating func appendCommentLine(targeted: Bool, text: String) {
         buffer.append(text)
         isTargeted = isTargeted || targeted
+    }
+    
+    /// Adds the given tokens to the collection of discussion tokens.
+    ///
+    /// - Parameter tokens: The additional tokens of the discussion block.
+    ///
+    mutating func appendDiscussionTokens(_ tokens: [String]) {
+        discussionTokens.append(contentsOf: tokens)
+    }
+
+    /// Adds a parameter to the comment block.
+    ///
+    /// - Parameters:
+    ///   - name: The name of the parameter.
+    ///   - tokens: The token strings of the parameter description.
+    ///
+    mutating func appendParameter(name: String, tokens: [String]) {
+        parameters.append(Parameter(name: name, tokens: tokens))
     }
 
     /// Uses the comment block values to generate a formatted comment block as an array of strings.
@@ -62,13 +83,13 @@ struct CommentBlock {
         case let .inlineComment(currentTokens):
             generalTokens = currentTokens
         case let .headerCommentDiscussion(currentTokens):
-            discussionTokens += currentTokens
+            appendDiscussionTokens(currentTokens)
         case let .headerCommentGeneral(currentTokens):
             generalTokens = currentTokens
         case let .headerCommentParameter(currentName, currentTokens):
-            parameters.append(Parameter(name: currentName, tokens: currentTokens))
+            appendParameter(name: currentName, tokens: currentTokens)
         case let .headerCommentReturn(currentTokens):
-            returnValue = Return(tokens: currentTokens)
+            returnTokens = currentTokens
         case .nonComment:
             break
         }
@@ -110,8 +131,8 @@ struct CommentBlock {
             // Generate the parameter output.
             section.append(contentsOf: parameters[0].asSingleParameterLines(prefix: prefix))
             // Generate the return output.
-            if let returnValue {
-                section.append(contentsOf: returnValue.asReturnLines(prefix: prefix))
+            if !returnTokens.isEmpty {
+                section.append(contentsOf: returnTokens.asReturnLines(prefix: prefix))
             }
             sections.append(section)
         } else if parameters.count > 1 {
@@ -122,15 +143,15 @@ struct CommentBlock {
                 section.append(contentsOf: parameter.asMultiParameterLines(prefix: prefix))
             }
             // Generate the return output.
-            if let returnValue {
-                section.append(contentsOf: returnValue.asReturnLines(prefix: prefix))
+            if !returnTokens.isEmpty {
+                section.append(contentsOf: returnTokens.asReturnLines(prefix: prefix))
             }
             sections.append(section)
         } else {
             // Generate the return output.
-            if let returnValue {
+            if !returnTokens.isEmpty {
                 var section = [String]()
-                section.append(contentsOf: returnValue.asReturnLines(prefix: prefix))
+                section.append(contentsOf: returnTokens.asReturnLines(prefix: prefix))
                 sections.append(section)
             }
         }
@@ -144,10 +165,18 @@ struct CommentBlock {
         output.append(contentsOf: sections.joined(separator: [prefix]))
 
         // Add an extra blank line if the comment block ended with parameters or returns.
-        if (!parameters.isEmpty || returnValue != nil) && discussionTokens.isEmpty {
+        if (!parameters.isEmpty || !returnTokens.isEmpty) && discussionTokens.isEmpty {
             output.append(prefix)
         }
 
         return output
+    }
+
+    /// Sets the tokens for the general description section of the comment block.
+    ///
+    /// - Parameter tokens: The tokens for the general description section of the comment block.
+    ///
+    mutating func setGeneralTokens(_ tokens: [String]) {
+        generalTokens = tokens
     }
 }

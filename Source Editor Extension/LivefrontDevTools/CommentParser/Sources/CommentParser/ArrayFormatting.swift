@@ -16,6 +16,20 @@ extension Array where Element == String {
         )
     }
 
+    /// Formats an array of string tokens in the style the return description for a header comment
+    /// block.
+    ///
+    /// - Parameter prefix: A string added to the beginning of each line of text.
+    /// - Returns: An array of formatted lines.
+    ///
+    func asReturnLines(prefix: String) -> [String] {
+        formattedLines(
+            prefix: prefix,
+            firstLineStart: " - Returns: ",
+            additionalLineStart: "   "
+        )
+    }
+
     /// Combines the array of string tokens into a single block of text. The trailing edge of the
     /// block should attempt to stay under line length limit if possible.
     ///
