@@ -1,15 +1,6 @@
 /// Stores the in-progress data while parsing a comment block.
 struct CommentBlock {
 
-    // MARK: Instance Properties
-
-    /// A buffer of unmodified lines from the comment block. This is used to revert to the original
-    /// unformatted lines in the event that the comment block is not targeted for formatting.
-    var buffer = [String]()
-
-    /// The tokens for the return description of the comment block.
-    var returnTokens = [String]()
-
     // MARK: Private Properties
 
     /// The tokens for the discussion section of the comment block.
@@ -21,29 +12,32 @@ struct CommentBlock {
     /// `true` iff the comment block should be formatted.
     private var isTargeted = false
 
+    /// A buffer of unmodified lines from the comment block. This is used to revert to the original
+    /// unformatted lines in the event that the comment block is not targeted for formatting.
+    private var originalLineBuffer = [String]()
+
     /// The parameters of the comment block.
     private var parameters = [Parameter]()
 
+    /// The tokens for the return description of the comment block.
+    private var returnTokens = [String]()
+
     // MARK: Instance Methods
 
-    /// Perform parsing common to all comment line types. The unaltered text is saved in a buffer in
-    /// case the comment block is not targeted for formatting.
-    ///
-    /// - Parameters:
-    ///   - targeted: `true` iff this line was contained in a selection range.
-    ///   - text: The original unmodified line of text.
-    ///
-    mutating func appendCommentLine(targeted: Bool, text: String) {
-        buffer.append(text)
-        isTargeted = isTargeted || targeted
-    }
-    
     /// Adds the given tokens to the collection of discussion tokens.
     ///
     /// - Parameter tokens: The additional tokens of the discussion block.
     ///
     mutating func appendDiscussionTokens(_ tokens: [String]) {
         discussionTokens.append(contentsOf: tokens)
+    }
+
+    /// Adds the given tokens to the general description section of the comment block.
+    ///
+    /// - Parameter tokens: The tokens for the general description section of the comment block.
+    ///
+    mutating func appendGeneralTokens(_ tokens: [String]) {
+        generalTokens.append(contentsOf: tokens)
     }
 
     /// Adds a parameter to the comment block.
@@ -56,66 +50,53 @@ struct CommentBlock {
         parameters.append(Parameter(name: name, tokens: tokens))
     }
 
+    /// Adds tokens to the current parameter's description.
+    ///
+    /// - Parameter tokens: Additional tokens for a parameter's description.
+    ///
+    mutating func appendParameter(tokens: [String]) {
+        guard !parameters.isEmpty else { return }
+        let parameter = parameters.removeLast()
+        parameters.append(Parameter(name: parameter.name, tokens: parameter.tokens + tokens))
+    }
+
+    /// Adds the given tokens to the return description of the comment block.
+    ///
+    /// - Parameter tokens: The additional tokens of the return description.
+    ///
+    mutating func appendReturnTokens(_ tokens: [String]) {
+        returnTokens.append(contentsOf: tokens)
+    }
+
     /// Uses the comment block values to generate a formatted comment block as an array of strings.
-    /// The temporary values are then erased in preparation for the next comment block.
     ///
     /// - Parameters:
-    ///   - mode: The current parsing mode.
+    ///   - type: The comment type that should be used to format the comment block.
     ///   - indentationGuide: A string which indicates the amount of whitespace to insert at the
     ///     beginning of every line in the comment block. This is determined by the amount of
     ///     whitespace at the beginning of the indentation guide.
     /// - Returns: The formatted output of the comment block.
     ///
-    mutating func finalizeAndGenerateOutput(
-        mode: ParsingMode,
+    mutating func generateOutput(
+        type: CommentType,
         indentationGuide: String
     ) -> [String] {
-        var output = [String]()
-
         // Skip formatting this comment block if it was not targeted.
         guard isTargeted else {
-            output.append(contentsOf: buffer)
-            return output
+            return originalLineBuffer
         }
 
-        // Finalize in-progress data.
-        switch mode {
-        case let .inlineComment(currentTokens):
-            generalTokens = currentTokens
-        case let .headerCommentDiscussion(currentTokens):
-            appendDiscussionTokens(currentTokens)
-        case let .headerCommentGeneral(currentTokens):
-            generalTokens = currentTokens
-        case let .headerCommentParameter(currentName, currentTokens):
-            appendParameter(name: currentName, tokens: currentTokens)
-        case let .headerCommentReturn(currentTokens):
-            returnTokens = currentTokens
-        case .nonComment:
-            break
-        }
-
-        // Build the prefix based on the mode and leading whitespace of the indentation guide. The
-        // indentation guild is used to determine how much whitespace to add at the beginning of
-        // each line of the comment block. If the guide begins with whitespace, that same amount of
-        // whitespace will be added to each line. Usually the indentation guide for a comment block
-        // is determined by the non-comment source code line immediately following the comment
+        // Build the prefix based on the comment type and leading whitespace of the indentation
+        // guide. The indentation guild is used to determine how much whitespace to add at the
+        // beginning of each line of the comment block. If the guide begins with whitespace, that
+        // same amount of whitespace will be added to each line. Usually the indentation guide for a
+        // comment block is the non-comment source code line immediately following the comment
         // block. If no subsequent line exists, or if the following line is empty, we fallback to
         // the indentation from the first line of the comment block.
         let finalIndentationGuide = indentationGuide.allSatisfy { $0.isWhitespace } ?
-            buffer.first ?? "" : indentationGuide
+            originalLineBuffer.first ?? "" : indentationGuide
         let indentation = finalIndentationGuide.prefix { $0.isWhitespace }
-        let prefix: String
-        switch mode {
-        case .headerCommentDiscussion,
-                .headerCommentGeneral,
-                .headerCommentParameter,
-                .headerCommentReturn:
-            prefix = indentation + "///"
-        case .inlineComment:
-            prefix = indentation + "//"
-        case .nonComment:
-            prefix = ""
-        }
+        let prefix: String = indentation + type.rawValue
 
         // Build groups of lines representing the sections of the comment.
         var sections = [[String]]()
@@ -162,7 +143,7 @@ struct CommentBlock {
         }
 
         // Add the sections to the output with a blank line between each section.
-        output.append(contentsOf: sections.joined(separator: [prefix]))
+        var output = Array(sections.joined(separator: [prefix]))
 
         // Add an extra blank line if the comment block ended with parameters or returns.
         if (!parameters.isEmpty || !returnTokens.isEmpty) && discussionTokens.isEmpty {
@@ -172,11 +153,15 @@ struct CommentBlock {
         return output
     }
 
-    /// Sets the tokens for the general description section of the comment block.
+    /// Perform parsing common to all comment line types. The unaltered text is saved in a buffer in
+    /// case the comment block is not targeted for formatting.
     ///
-    /// - Parameter tokens: The tokens for the general description section of the comment block.
+    /// - Parameters:
+    ///   - targeted: `true` iff this line was contained in a selection range.
+    ///   - text: The original unmodified line of text.
     ///
-    mutating func setGeneralTokens(_ tokens: [String]) {
-        generalTokens = tokens
+    mutating func saveOriginalLine(targeted: Bool, text: String) {
+        originalLineBuffer.append(text)
+        isTargeted = isTargeted || targeted
     }
 }

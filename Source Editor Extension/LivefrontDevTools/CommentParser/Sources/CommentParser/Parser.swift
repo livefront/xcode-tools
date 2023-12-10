@@ -33,8 +33,7 @@ public class Parser {
     /// - Returns: The formatted lines of text.
     ///
     public func generateOutput() -> [String] {
-        output += commentBlock.finalizeAndGenerateOutput(mode: mode, indentationGuide: "")
-        commentBlock = CommentBlock()
+        finalizeCommentBlock(indentationGuide: "")
         mode = .nonComment
         return output
     }
@@ -51,187 +50,191 @@ public class Parser {
 
         // Header Comment Discussion Mode
         case let (.headerCommentDiscussion, .headerCommentBlank(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-        case let (.headerCommentDiscussion(currentTokens), .headerCommentGeneral(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentDiscussion(currentTokens: currentTokens + tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+        case let (.headerCommentDiscussion, .headerCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendDiscussionTokens(tokens)
         case let (.headerCommentDiscussion, .headerCommentMultiParameterHeader(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-        case let (.headerCommentDiscussion(currentTokens), .headerCommentParameterStart(name, tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.appendDiscussionTokens(currentTokens)
-            mode = .headerCommentParameter(currentName: name, currentTokens: tokens)
-        case let (.headerCommentDiscussion(currentTokens), .headerCommentReturnStart(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.appendDiscussionTokens(currentTokens)
-            mode = .headerCommentReturn(currentTokens: commentBlock.returnTokens + tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+        case let (.headerCommentDiscussion, .headerCommentParameterStart(name, tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendParameter(name: name, tokens: tokens)
+            mode = .headerCommentParameter
+        case let (.headerCommentDiscussion, .headerCommentReturnStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendReturnTokens(tokens)
+            mode = .headerCommentReturn
         case let (.headerCommentDiscussion, .inlineCommentBlank(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo. No mode change is necessary.
-        case let (.headerCommentDiscussion(currentTokens), .inlineCommentGeneral(tokens, targeted, text)):
+        case let (.headerCommentDiscussion, .inlineCommentGeneral(tokens, targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentDiscussion(currentTokens: currentTokens + tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendDiscussionTokens(tokens)
+            mode = .headerCommentDiscussion
         case let (.headerCommentDiscussion, .nonComment(text)):
-            finalizeCommentBlock(text: text)
+            finalizeCommentBlock(indentationGuide: text)
+            output.append(text)
             mode = .nonComment
 
         // Header Comment General Mode
-        case let (.headerCommentGeneral(currentTokens), .headerCommentBlank(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.setGeneralTokens(currentTokens)
-            mode = .headerCommentDiscussion(currentTokens: [])
-        case let (.headerCommentGeneral(currentTokens), .headerCommentGeneral(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentGeneral(currentTokens: currentTokens + tokens)
+        case let (.headerCommentGeneral, .headerCommentBlank(targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentDiscussion
+        case let (.headerCommentGeneral, .headerCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendGeneralTokens(tokens)
         case let (.headerCommentGeneral, .headerCommentMultiParameterHeader(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-        case let (.headerCommentGeneral(currentTokens), .headerCommentParameterStart(name, tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.setGeneralTokens(currentTokens)
-            mode = .headerCommentParameter(currentName: name, currentTokens: tokens)
-        case let (.headerCommentGeneral(currentTokens), .headerCommentReturnStart(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.setGeneralTokens(currentTokens)
-            mode = .headerCommentReturn(currentTokens: commentBlock.returnTokens + tokens)
-        case let (.headerCommentGeneral(currentTokens), .inlineCommentBlank(targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+        case let (.headerCommentGeneral, .headerCommentParameterStart(name, tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendParameter(name: name, tokens: tokens)
+            mode = .headerCommentParameter
+        case let (.headerCommentGeneral, .headerCommentReturnStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendReturnTokens(tokens)
+            mode = .headerCommentReturn
+        case let (.headerCommentGeneral, .inlineCommentBlank(targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.setGeneralTokens(currentTokens)
-            mode = .headerCommentDiscussion(currentTokens: [])
-        case let (.headerCommentGeneral(currentTokens), .inlineCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentDiscussion
+        case let (.headerCommentGeneral, .inlineCommentGeneral(tokens, targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentGeneral(currentTokens: currentTokens + tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendGeneralTokens(tokens)
         case let (.headerCommentGeneral, .nonComment(text)):
-            finalizeCommentBlock(text: text)
+            finalizeCommentBlock(indentationGuide: text)
+            output.append(text)
             mode = .nonComment
 
         // Header Comment Parameter Mode
-        case let (.headerCommentParameter(currentName, currentTokens), .headerCommentBlank(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.appendParameter(name: currentName, tokens: currentTokens)
-            mode = .headerCommentDiscussion(currentTokens: [])
-        case let (.headerCommentParameter(currentName, currentTokens), .headerCommentGeneral(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentParameter(currentName: currentName, currentTokens: currentTokens + tokens)
+        case let (.headerCommentParameter, .headerCommentBlank(targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentDiscussion
+        case let (.headerCommentParameter, .headerCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendParameter(tokens: tokens)
         case let (.headerCommentParameter, .headerCommentMultiParameterHeader(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-        case let (.headerCommentParameter(currentName, currentTokens), .headerCommentParameterStart(name, tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.appendParameter(name: currentName, tokens: currentTokens)
-            mode = .headerCommentParameter(currentName: name, currentTokens: tokens)
-        case let (.headerCommentParameter(currentName, currentTokens), .headerCommentReturnStart(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.appendParameter(name: currentName, tokens: currentTokens)
-            mode = .headerCommentReturn(currentTokens: commentBlock.returnTokens + tokens)
-        case let (.headerCommentParameter(currentName, currentTokens), .inlineCommentBlank(targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+        case let (.headerCommentParameter, .headerCommentParameterStart(name, tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendParameter(name: name, tokens: tokens)
+        case let (.headerCommentParameter, .headerCommentReturnStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendReturnTokens(tokens)
+            mode = .headerCommentReturn
+        case let (.headerCommentParameter, .inlineCommentBlank(targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.appendParameter(name: currentName, tokens: currentTokens)
-            mode = .headerCommentDiscussion(currentTokens: [])
-        case let (.headerCommentParameter(currentName, currentTokens), .inlineCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentDiscussion
+        case let (.headerCommentParameter, .inlineCommentGeneral(tokens, targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentParameter(currentName: currentName, currentTokens: currentTokens + tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendParameter(tokens: tokens)
         case let (.headerCommentParameter, .nonComment(text)):
-            finalizeCommentBlock(text: text)
+            finalizeCommentBlock(indentationGuide: text)
+            output.append(text)
             mode = .nonComment
 
         // Header Comment Return Mode
-        case let (.headerCommentReturn(currentTokens), .headerCommentBlank(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.returnTokens = currentTokens
-            mode = .headerCommentDiscussion(currentTokens: [])
-        case let (.headerCommentReturn(currentTokens), .headerCommentGeneral(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentReturn(currentTokens: currentTokens + tokens)
+        case let (.headerCommentReturn, .headerCommentBlank(targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentDiscussion
+        case let (.headerCommentReturn, .headerCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendReturnTokens(tokens)
         case let (.headerCommentReturn, .headerCommentMultiParameterHeader(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-        case let (.headerCommentReturn(currentTokens), .headerCommentParameterStart(name, tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.returnTokens = currentTokens
-            mode = .headerCommentParameter(currentName: name, currentTokens: tokens)
-        case let (.headerCommentReturn(currentTokens), .headerCommentReturnStart(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+        case let (.headerCommentReturn, .headerCommentParameterStart(name, tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendParameter(name: name, tokens: tokens)
+            mode = .headerCommentParameter
+        case let (.headerCommentReturn, .headerCommentReturnStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
             // This shouldn't happen, but if it does, just combine the multiple return descriptions.
-            mode = .headerCommentReturn(currentTokens: currentTokens + tokens)
-        case let (.headerCommentReturn(currentTokens), .inlineCommentBlank(targeted, text)):
+            commentBlock.appendReturnTokens(tokens)
+        case let (.headerCommentReturn, .inlineCommentBlank(targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.returnTokens = currentTokens
-            mode = .headerCommentDiscussion(currentTokens: [])
-        case let (.headerCommentReturn(currentTokens), .inlineCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentDiscussion
+        case let (.headerCommentReturn, .inlineCommentGeneral(tokens, targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentReturn(currentTokens: currentTokens + tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendReturnTokens(tokens)
         case let (.headerCommentReturn, .nonComment(text)):
-            finalizeCommentBlock(text: text)
+            finalizeCommentBlock(indentationGuide: text)
+            output.append(text)
             mode = .nonComment
 
         // Inline Comment Mode
-        case let (.inlineComment(currentTokens), .headerCommentBlank(targeted, text)):
+        case let (.inlineComment, .headerCommentBlank(targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentGeneral(currentTokens: currentTokens)
-        case let (.inlineComment(currentTokens), .headerCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentGeneral
+        case let (.inlineComment, .headerCommentGeneral(tokens, targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentGeneral(currentTokens: currentTokens + tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendGeneralTokens(tokens)
+            mode = .headerCommentGeneral
         case let (.inlineComment, .headerCommentMultiParameterHeader(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-        case let (.inlineComment(currentTokens), .headerCommentParameterStart(name, tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+        case let (.inlineComment, .headerCommentParameterStart(name, tokens, targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.setGeneralTokens(currentTokens)
-            mode = .headerCommentParameter(currentName: name, currentTokens: tokens)
-        case let (.inlineComment(currentTokens), .headerCommentReturnStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendParameter(name: name, tokens: tokens)
+            mode = .headerCommentParameter
+        case let (.inlineComment, .headerCommentReturnStart(tokens, targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            commentBlock.setGeneralTokens(currentTokens)
-            mode = .headerCommentReturn(currentTokens: commentBlock.returnTokens + tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendReturnTokens(tokens)
+            mode = .headerCommentReturn
         case let (.inlineComment, .inlineCommentBlank(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-        case let (.inlineComment(currentTokens), .inlineCommentGeneral(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .inlineComment(currentTokens: currentTokens + tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+        case let (.inlineComment, .inlineCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendGeneralTokens(tokens)
         case let (.inlineComment, .nonComment(text)):
-            finalizeCommentBlock(text: text)
+            finalizeCommentBlock(indentationGuide: text)
+            output.append(text)
             mode = .nonComment
 
         // Non Comment Mode
         case let (.nonComment, .headerCommentBlank(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentGeneral(currentTokens: [])
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentGeneral
         case let (.nonComment, .headerCommentGeneral(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentGeneral(currentTokens: tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendGeneralTokens(tokens)
+            mode = .headerCommentGeneral
         case let (.nonComment, .headerCommentMultiParameterHeader(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
         case let (.nonComment, .headerCommentParameterStart(name, tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentParameter(currentName: name, currentTokens: tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendParameter(name: name, tokens: tokens)
+            mode = .headerCommentParameter
         case let (.nonComment, .headerCommentReturnStart(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .headerCommentReturn(currentTokens: tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendReturnTokens(tokens)
+            mode = .headerCommentReturn
         case let (.nonComment, .inlineCommentBlank(targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .inlineComment(currentTokens: [])
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .inlineComment
         case let (.nonComment, .inlineCommentGeneral(tokens, targeted, text)):
-            commentBlock.appendCommentLine(targeted: targeted, text: text)
-            mode = .inlineComment(currentTokens: tokens)
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendGeneralTokens(tokens)
+            mode = .inlineComment
         case let (.nonComment, .nonComment(text)):
             output.append(text)
         }
@@ -239,11 +242,21 @@ public class Parser {
 
     // MARK: Private Methods
 
-    /// Finalize the in-progress comment block.
-    /// - Parameter text: The current line of text.
-    private func finalizeCommentBlock(text: String) {
-        output += commentBlock.finalizeAndGenerateOutput(mode: mode, indentationGuide: text)
+    /// Finalize the in-progress comment block. The block's output is added to the parser output and
+    /// the comment block is reset to empty.
+    ///
+    /// - Parameter indentationGuide: A string which indicates the amount of whitespace to insert at
+    ///   the beginning of every line in the comment block. This is determined by the amount of
+    ///   whitespace at the beginning of the indentation guide.
+    ///
+    private func finalizeCommentBlock(indentationGuide: String) {
+        guard let commentType = mode.commentType else { return }
+        output.append(
+            contentsOf: commentBlock.generateOutput(
+                type: commentType,
+                indentationGuide: indentationGuide
+            )
+        )
         commentBlock = CommentBlock()
-        output.append(text)
     }
 }
