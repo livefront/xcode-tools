@@ -3,8 +3,7 @@ import XCTest
 
 final class LexerTests: XCTestCase {
     
-    /// A blank line within a header comment should be interpreted as
-    /// `LineType.headerCommentBlank`.
+    /// A blank line within a header comment should be interpreted as `LineType.headerCommentBlank`.
     func testHeaderCommentBlank() {
         // Normal
         XCTAssertEqual(
