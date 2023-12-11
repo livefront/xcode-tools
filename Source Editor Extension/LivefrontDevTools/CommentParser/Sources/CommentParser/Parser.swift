@@ -77,7 +77,6 @@ public class Parser {
             // typo.
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             commentBlock.appendDiscussionTokens(tokens)
-            mode = .headerCommentDiscussion
         case let (.headerCommentDiscussion, .nonComment(text)):
             finalizeCommentBlock(indentationGuide: text)
             output.append(text)
