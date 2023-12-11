@@ -24,12 +24,24 @@ class FormatCommentsCommand: NSObject, XCSourceEditorCommand {
             lineNumber += 1
         }
 
-        // Get the final output from the parser.
-        let output = parser.generateOutput()
+        // Get the final output from the parser. The original lines ended with newline characters.
+        // Add them back here to produce a minimal difference from the original text.
+        let output = parser.generateOutput().map { !$0.hasSuffix("\n") ? "\($0)\n" : $0 }
 
-        // Replace the input lines with the generated output lines.
-        lines.removeAllObjects()
-        lines.addObjects(from: output)
+        // Attempt to apply the smallest number of changes necessary to the contents of the lines
+        // buffer. We do this to get Xcode to only highlight changed lines while undoing the
+        // changes.
+        let difference = lines.difference(from: output) { lhs, rhs in
+            if let leftString = lhs as? String,
+               let rightString = rhs as? String {
+                // If two strings have equal content, treat them as unchanged.
+                return leftString == rightString
+            } else {
+                return false
+            }
+        }.inverse()
+        lines.apply(difference)
+
         completionHandler(nil)
     }
 
