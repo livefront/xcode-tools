@@ -1,7 +1,7 @@
 import XCTest
 @testable import CommentParser
 
-final class CommentParserTests: XCTestCase {
+final class ParserTests: XCTestCase {
     
     /// A long discussion portion of a header comment should wrap to multiple lines.
     func testHeaderCommentDiscussionLong() {
@@ -46,7 +46,7 @@ final class CommentParserTests: XCTestCase {
         verifyFormat(input: input, expected: expected, targetRanges: [])
     }
 
-    /// A header comment with long general text, discussion, parameters, and return should all wrap
+    /// A header comment with long general text, discussion, parameters, returns, and throws should all wrap
     /// and format as expected.
     func testHeaderCommentFull() {
         let input = """
@@ -57,6 +57,7 @@ final class CommentParserTests: XCTestCase {
 ///   - paramB: This is parameter B's description.
 /// - Returns: This is the description of the return value.
 ///     It will have to wrap even when it is indented all the way to the left.
+/// - Throws: This is the description of the throws value. It will have to wrap even when it is indented all the way to the left.
 ///
 /// This is a discussion block that will be formatted separately from the general comment text because there is a blank line between them.
 """
@@ -70,6 +71,8 @@ final class CommentParserTests: XCTestCase {
 ///   - paramB: This is parameter B's description.
 /// - Returns: This is the description of the return value. It will have to wrap even when it is
 ///   indented all the way to the left.
+/// - Throws: This is the description of the throws value. It will have to wrap even when it is
+///   indented all the way to the left.
 ///
 /// This is a discussion block that will be formatted separately from the general comment text
 /// because there is a blank line between them.
@@ -77,7 +80,7 @@ final class CommentParserTests: XCTestCase {
         verifyFormat(input: input, expected: expected, targetRanges: [])
     }
 
-    /// A header comment with long general text, discussion, parameters, return, missing spaces
+    /// A header comment with long general text, discussion, parameters, returns, throws, missing spaces
     /// after all the slashes, and extra slashes should all wrap and format as expected.
     func testHeaderCommentFullMissingSpaces() {
         let input = """
@@ -88,6 +91,8 @@ final class CommentParserTests: XCTestCase {
 ///- paramB: This is parameter B's description.
 ////- Returns: This is the description of the return value.
 ///It will have to wrap even when it is indented all the way to the left.
+///- Throws: This is the description of the throws value. It will have to wrap even when it is
+///indented all the way to the left.
 ////
 ///This is a discussion block that will be formatted separately from the general comment text because there is a blank line between them.
 """
@@ -100,6 +105,8 @@ final class CommentParserTests: XCTestCase {
 ///     the way to the left.
 ///   - paramB: This is parameter B's description.
 /// - Returns: This is the description of the return value. It will have to wrap even when it is
+///   indented all the way to the left.
+/// - Throws: This is the description of the throws value. It will have to wrap even when it is
 ///   indented all the way to the left.
 ///
 /// This is a discussion block that will be formatted separately from the general comment text
@@ -209,6 +216,31 @@ final class CommentParserTests: XCTestCase {
 """
         let expected = """
 /// - Returns: This is the description of the return value.
+///
+"""
+        verifyFormat(input: input, expected: expected, targetRanges: [])
+    }
+
+    /// A header comment with a long throws description should wrap to multiple lines.
+    func testHeaderCommentThrowsLong() {
+        let input = """
+/// - Throws: This is the description of the throws value. It will have to wrap even when it is indented all the way to the left.
+"""
+        let expected = """
+/// - Throws: This is the description of the throws value. It will have to wrap even when it is
+///   indented all the way to the left.
+///
+"""
+        verifyFormat(input: input, expected: expected, targetRanges: [])
+    }
+
+    /// A header comment with a short throws description should not wrap.
+    func testHeaderCommentThrowsShort() {
+        let input = """
+/// - Throws: This is the description of the throws value.
+"""
+        let expected = """
+/// - Throws: This is the description of the throws value.
 ///
 """
         verifyFormat(input: input, expected: expected, targetRanges: [])
@@ -372,7 +404,7 @@ final class CommentParserTests: XCTestCase {
 ///This is more of the general comment text.
 //
 /// This is a discussion block that will be formatted separately from the general comment text because there is a blank line between them.
-/// - Returns: This will appear at the beginning of the return description.
+/// - Returns: This will appear at the beginning of the returns description.
 //
 /// Some more discussion.
 //
@@ -390,10 +422,12 @@ final class CommentParserTests: XCTestCase {
 // This also belongs to D.
 ///
 /// More discussion.
+/// - Throws: After a discussion line.
+/// - paramE: This is parameter E's description.
 ///
 /// Even more discussion.
 //  This is still part of the discussion.
-/// - Returns: This will be added to the the original return description.
+/// - Returns: This will be added to the the original returns description.
 
 // General
 /// text
@@ -404,15 +438,31 @@ final class CommentParserTests: XCTestCase {
 /// - Parameters:
 ///
 /// - paramA: This is parameter A's description.
+/// - Throws: After a parameter line.
+// Followed by a general in-line.
+/// - Throws: After another throws.
+/// - Parameters:
+///
+/// - Throws: Before returns.
+/// - Returns: together.
+///
+/// - Throws: Before a blank in-line.
+//
 ///
 /// Discussion text followed by a non-comment line.
 not a comment
+
+/// General text followed by a throws line.
+/// - Throws: After a general line.
 
 /// General text followed by a non-comment line.
 still not a comment
 
 ///  - paramA: This is parameter A's description.
 non comment
+
+/// - Throws: Before a non-comment line.
+non comment again
 
 // Inline becomes header description.
 //
@@ -427,6 +477,9 @@ non comment
 
 // Inline becomes header description.
 /// - Returns: Some value.
+
+// Inline becomes header description.
+/// - Throws: Some value.
 """
         let expected = """
 /// This is general comment text that will have to wrap to multiple lines even when it is indented
@@ -438,9 +491,11 @@ non comment
 ///   - paramB: This is parameter B's description.
 ///   - paramC: This is parameter C's description.
 ///   - paramD: This is parameter D's description. This also belongs to D.
-/// - Returns: This will appear at the beginning of the return description. This is the description
+///   - paramE: This is parameter E's description.
+/// - Returns: This will appear at the beginning of the returns description. This is the description
 ///   of the return value. It will have to wrap even when it is indented all the way to the left.
-///   This will be added to the the original return description.
+///   This will be added to the the original returns description.
+/// - Throws: After a discussion line.
 ///
 /// This is a discussion block that will be formatted separately from the general comment text
 /// because there is a blank line between them. Some more discussion. More discussion. Even more
@@ -449,10 +504,17 @@ non comment
 /// General text
 ///
 /// - Parameter paramA: This is parameter A's description.
-/// - Returns: Some description text which combines
+/// - Returns: Some description text which combines together.
+/// - Throws: After a parameter line. Followed by a general in-line. After another throws. Before
+///   returns. Before a blank in-line.
 ///
 /// Discussion text followed by a non-comment line.
 not a comment
+
+/// General text followed by a throws line.
+///
+/// - Throws: After a general line.
+///
 
 /// General text followed by a non-comment line.
 still not a comment
@@ -460,6 +522,10 @@ still not a comment
 /// - Parameter paramA: This is parameter A's description.
 ///
 non comment
+
+/// - Throws: Before a non-comment line.
+///
+non comment again
 
 /// Inline becomes header description.
 
@@ -473,6 +539,11 @@ non comment
 /// Inline becomes header description.
 ///
 /// - Returns: Some value.
+///
+
+/// Inline becomes header description.
+///
+/// - Throws: Some value.
 ///
 """
         verifyFormat(input: input, expected: expected, targetRanges: [])

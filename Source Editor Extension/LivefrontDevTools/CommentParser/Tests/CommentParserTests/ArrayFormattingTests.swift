@@ -44,7 +44,7 @@ final class ArrayFormattingTests: XCTestCase {
         )
     }
 
-    /// `asReturnLines` should format the return description in a multiline block as it would appear
+    /// `asReturnsLines` should format the returns description in a multiline block as it would appear
     /// in a header comment.
     func testAsReturnLines() {
         let result = [
@@ -64,12 +64,43 @@ final class ArrayFormattingTests: XCTestCase {
             "to",
             "multiple",
             "lines.",
-        ].asReturnLines(prefix: "///")
+        ].asReturnsLines(prefix: "///")
 
         XCTAssertEqual(
             result,
             [
 "/// - Returns: The description of the return value. This description is long and should wrap to",
+"///   multiple lines.",
+            ]
+        )
+    }
+
+    /// `asThrowsLines` should format the throws description in a multiline block as it would appear
+    /// in a header comment.
+    func testAsThrowsLines() {
+        let result = [
+            "The",
+            "description",
+            "of",
+            "the",
+            "throws",
+            "value.",
+            "This",
+            "description",
+            "is",
+            "long",
+            "and",
+            "should",
+            "wrap",
+            "to",
+            "multiple",
+            "lines.",
+        ].asThrowsLines(prefix: "///")
+
+        XCTAssertEqual(
+            result,
+            [
+"/// - Throws: The description of the throws value. This description is long and should wrap to",
 "///   multiple lines.",
             ]
         )

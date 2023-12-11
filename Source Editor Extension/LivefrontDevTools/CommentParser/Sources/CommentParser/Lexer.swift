@@ -43,11 +43,22 @@ enum Lexer {
             }
         }
 
-        // Detect the beginning of a return block.
+        // Detect the beginning of a returns block.
         // Ex: /// - Returns: …
         if tokens.starts(with: ["///", "-", "Returns:"]) ||
            tokens.starts(with: ["//", "-", "Returns:"]) {
-            return .headerCommentReturnStart(
+            return .headerCommentReturnsStart(
+                tokens: Array(tokens.dropFirst(3)),
+                targeted: targeted,
+                text: text
+            )
+        }
+
+        // Detect the beginning of a throws block.
+        // Ex: /// - Throws: …
+        if tokens.starts(with: ["///", "-", "Throws:"]) ||
+            tokens.starts(with: ["//", "-", "Throws:"]) {
+            return .headerCommentThrowsStart(
                 tokens: Array(tokens.dropFirst(3)),
                 targeted: targeted,
                 text: text

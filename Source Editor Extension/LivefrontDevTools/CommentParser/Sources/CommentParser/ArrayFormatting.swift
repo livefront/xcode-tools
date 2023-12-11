@@ -16,16 +16,30 @@ extension Array where Element == String {
         )
     }
 
-    /// Formats an array of string tokens in the style the return description for a header comment
-    /// block.
+    /// Formats an array of string tokens in the style of the returns description for a header
+    /// comment block.
     ///
     /// - Parameter prefix: A string added to the beginning of each line of text.
     /// - Returns: An array of formatted lines.
     ///
-    func asReturnLines(prefix: String) -> [String] {
+    func asReturnsLines(prefix: String) -> [String] {
         formattedLines(
             prefix: prefix,
             firstLineStart: " - Returns: ",
+            additionalLineStart: "   "
+        )
+    }
+
+    /// Formats an array of string tokens in the style of the throws description for a header
+    /// comment block.
+    ///
+    /// - Parameter prefix: A string added to the beginning of each line of text.
+    /// - Returns: An array of formatted lines.
+    ///
+    func asThrowsLines(prefix: String) -> [String] {
+        formattedLines(
+            prefix: prefix,
+            firstLineStart: " - Throws: ",
             additionalLineStart: "   "
         )
     }

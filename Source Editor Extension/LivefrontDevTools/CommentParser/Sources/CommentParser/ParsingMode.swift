@@ -9,11 +9,15 @@ enum ParsingMode {
     case headerCommentGeneral
 
     /// Parsing a parameter block of a header comment. Parameters appear after the general text and
-    /// before the return block.
+    /// before the returns block.
     case headerCommentParameter
 
-    /// Parsing a return block of a header comment. The return block appears after any parameters.
-    case headerCommentReturn
+    /// Parsing a returns block of a header comment. The returns block appears after any parameters.
+    case headerCommentReturns
+
+    /// Parsing a throws block of a header comment. The throws block appears after any parameters or
+    /// returns.
+    case headerCommentThrows
 
     /// Parsing a simple in-line comment. A comment which uses "//".
     case inlineComment
@@ -27,7 +31,8 @@ enum ParsingMode {
         case .headerCommentDiscussion,
              .headerCommentGeneral,
              .headerCommentParameter,
-             .headerCommentReturn:
+             .headerCommentReturns,
+             .headerCommentThrows:
                 .header
         case .inlineComment:
                 .inline

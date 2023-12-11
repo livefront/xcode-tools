@@ -19,8 +19,11 @@ struct CommentBlock {
     /// The parameters of the comment block.
     private var parameters = [Parameter]()
 
-    /// The tokens for the return description of the comment block.
-    private var returnTokens = [String]()
+    /// The tokens for the returns description of the comment block.
+    private var returnsTokens = [String]()
+
+    /// The tokens for the throws description of the comment block.
+    private var throwsTokens = [String]()
 
     // MARK: Instance Methods
 
@@ -60,12 +63,20 @@ struct CommentBlock {
         parameters.append(Parameter(name: parameter.name, tokens: parameter.tokens + tokens))
     }
 
-    /// Adds the given tokens to the return description of the comment block.
+    /// Adds the given tokens to the returns description of the comment block.
     ///
-    /// - Parameter tokens: The additional tokens of the return description.
+    /// - Parameter tokens: The additional tokens of the returns description.
     ///
-    mutating func appendReturnTokens(_ tokens: [String]) {
-        returnTokens.append(contentsOf: tokens)
+    mutating func appendReturnsTokens(_ tokens: [String]) {
+        returnsTokens.append(contentsOf: tokens)
+    }
+
+    /// Adds the given tokens to the throws description of the comment block.
+    ///
+    /// - Parameter tokens: The additional tokens of the throws description.
+    ///
+    mutating func appendThrowsTokens(_ tokens: [String]) {
+        throwsTokens.append(contentsOf: tokens)
     }
 
     /// Uses the comment block values to generate a formatted comment block as an array of strings.
@@ -106,35 +117,36 @@ struct CommentBlock {
             sections.append(generalTokens.asGeneralCommentLines(prefix: prefix))
         }
 
-        // Parameters / Returns block.
+        // Function signature block (Parameters, Returns, Throws).
+        var functionSignatureSection = [String]()
         if parameters.count == 1 {
-            var section = [String]()
             // Generate the parameter output.
-            section.append(contentsOf: parameters[0].asSingleParameterLines(prefix: prefix))
-            // Generate the return output.
-            if !returnTokens.isEmpty {
-                section.append(contentsOf: returnTokens.asReturnLines(prefix: prefix))
-            }
-            sections.append(section)
+            functionSignatureSection.append(
+                contentsOf: parameters[0].asSingleParameterLines(prefix: prefix)
+            )
         } else if parameters.count > 1 {
-            var section = [String]()
             // Generate the parameter output.
-            section.append(prefix + " - Parameters:")
+            functionSignatureSection.append(prefix + " - Parameters:")
             for parameter in parameters {
-                section.append(contentsOf: parameter.asMultiParameterLines(prefix: prefix))
+                functionSignatureSection.append(
+                    contentsOf: parameter.asMultiParameterLines(prefix: prefix)
+                )
             }
-            // Generate the return output.
-            if !returnTokens.isEmpty {
-                section.append(contentsOf: returnTokens.asReturnLines(prefix: prefix))
-            }
-            sections.append(section)
-        } else {
-            // Generate the return output.
-            if !returnTokens.isEmpty {
-                var section = [String]()
-                section.append(contentsOf: returnTokens.asReturnLines(prefix: prefix))
-                sections.append(section)
-            }
+        }
+        // Generate the returns output.
+        if !returnsTokens.isEmpty {
+            functionSignatureSection.append(
+                contentsOf: returnsTokens.asReturnsLines(prefix: prefix)
+            )
+        }
+        // Generate the throws output.
+        if !throwsTokens.isEmpty {
+            functionSignatureSection.append(
+                contentsOf: throwsTokens.asThrowsLines(prefix: prefix)
+            )
+        }
+        if !functionSignatureSection.isEmpty {
+            sections.append(functionSignatureSection)
         }
 
         // Generate the discussion output.
@@ -145,8 +157,8 @@ struct CommentBlock {
         // Add the sections to the output with a blank line between each section.
         var output = Array(sections.joined(separator: [prefix]))
 
-        // Add an extra blank line if the comment block ended with parameters or returns.
-        if (!parameters.isEmpty || !returnTokens.isEmpty) && discussionTokens.isEmpty {
+        // Add an extra blank line if the comment block ended with a function signature section.
+        if !functionSignatureSection.isEmpty && discussionTokens.isEmpty {
             output.append(prefix)
         }
 

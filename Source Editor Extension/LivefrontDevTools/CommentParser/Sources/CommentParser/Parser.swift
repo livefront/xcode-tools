@@ -60,10 +60,14 @@ public class Parser {
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             commentBlock.appendParameter(name: name, tokens: tokens)
             mode = .headerCommentParameter
-        case let (.headerCommentDiscussion, .headerCommentReturnStart(tokens, targeted, text)):
+        case let (.headerCommentDiscussion, .headerCommentReturnsStart(tokens, targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
-            commentBlock.appendReturnTokens(tokens)
-            mode = .headerCommentReturn
+            commentBlock.appendReturnsTokens(tokens)
+            mode = .headerCommentReturns
+        case let (.headerCommentDiscussion, .headerCommentThrowsStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendThrowsTokens(tokens)
+            mode = .headerCommentThrows
         case let (.headerCommentDiscussion, .inlineCommentBlank(targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             // When an inline comment touches a header comment, assume the inline slashes were a
@@ -92,10 +96,14 @@ public class Parser {
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             commentBlock.appendParameter(name: name, tokens: tokens)
             mode = .headerCommentParameter
-        case let (.headerCommentGeneral, .headerCommentReturnStart(tokens, targeted, text)):
+        case let (.headerCommentGeneral, .headerCommentReturnsStart(tokens, targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
-            commentBlock.appendReturnTokens(tokens)
-            mode = .headerCommentReturn
+            commentBlock.appendReturnsTokens(tokens)
+            mode = .headerCommentReturns
+        case let (.headerCommentGeneral, .headerCommentThrowsStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendThrowsTokens(tokens)
+            mode = .headerCommentThrows
         case let (.headerCommentGeneral, .inlineCommentBlank(targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
@@ -123,10 +131,14 @@ public class Parser {
         case let (.headerCommentParameter, .headerCommentParameterStart(name, tokens, targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             commentBlock.appendParameter(name: name, tokens: tokens)
-        case let (.headerCommentParameter, .headerCommentReturnStart(tokens, targeted, text)):
+        case let (.headerCommentParameter, .headerCommentReturnsStart(tokens, targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
-            commentBlock.appendReturnTokens(tokens)
-            mode = .headerCommentReturn
+            commentBlock.appendReturnsTokens(tokens)
+            mode = .headerCommentReturns
+        case let (.headerCommentParameter, .headerCommentThrowsStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendThrowsTokens(tokens)
+            mode = .headerCommentThrows
         case let (.headerCommentParameter, .inlineCommentBlank(targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
@@ -142,34 +154,72 @@ public class Parser {
             output.append(text)
             mode = .nonComment
 
-        // Header Comment Return Mode
-        case let (.headerCommentReturn, .headerCommentBlank(targeted, text)):
+        // Header Comment Returns Mode
+        case let (.headerCommentReturns, .headerCommentBlank(targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             mode = .headerCommentDiscussion
-        case let (.headerCommentReturn, .headerCommentGeneral(tokens, targeted, text)):
+        case let (.headerCommentReturns, .headerCommentGeneral(tokens, targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
-            commentBlock.appendReturnTokens(tokens)
-        case let (.headerCommentReturn, .headerCommentMultiParameterHeader(targeted, text)):
+            commentBlock.appendReturnsTokens(tokens)
+        case let (.headerCommentReturns, .headerCommentMultiParameterHeader(targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
-        case let (.headerCommentReturn, .headerCommentParameterStart(name, tokens, targeted, text)):
+        case let (.headerCommentReturns, .headerCommentParameterStart(name, tokens, targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             commentBlock.appendParameter(name: name, tokens: tokens)
             mode = .headerCommentParameter
-        case let (.headerCommentReturn, .headerCommentReturnStart(tokens, targeted, text)):
+        case let (.headerCommentReturns, .headerCommentReturnsStart(tokens, targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
-            // This shouldn't happen, but if it does, just combine the multiple return descriptions.
-            commentBlock.appendReturnTokens(tokens)
-        case let (.headerCommentReturn, .inlineCommentBlank(targeted, text)):
+            commentBlock.appendReturnsTokens(tokens)
+        case let (.headerCommentReturns, .headerCommentThrowsStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendThrowsTokens(tokens)
+            mode = .headerCommentThrows
+        case let (.headerCommentReturns, .inlineCommentBlank(targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             mode = .headerCommentDiscussion
-        case let (.headerCommentReturn, .inlineCommentGeneral(tokens, targeted, text)):
+        case let (.headerCommentReturns, .inlineCommentGeneral(tokens, targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
-            commentBlock.appendReturnTokens(tokens)
-        case let (.headerCommentReturn, .nonComment(text)):
+            commentBlock.appendReturnsTokens(tokens)
+        case let (.headerCommentReturns, .nonComment(text)):
+            finalizeCommentBlock(indentationGuide: text)
+            output.append(text)
+            mode = .nonComment
+
+        // Header Comment Throws Mode
+        case let (.headerCommentThrows, .headerCommentBlank(targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentDiscussion
+        case let (.headerCommentThrows, .headerCommentGeneral(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendThrowsTokens(tokens)
+        case let (.headerCommentThrows, .headerCommentMultiParameterHeader(targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+        case let (.headerCommentThrows, .headerCommentParameterStart(name, tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendParameter(name: name, tokens: tokens)
+            mode = .headerCommentParameter
+        case let (.headerCommentThrows, .headerCommentReturnsStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendReturnsTokens(tokens)
+            mode = .headerCommentReturns
+        case let (.headerCommentThrows, .headerCommentThrowsStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendThrowsTokens(tokens)
+        case let (.headerCommentThrows, .inlineCommentBlank(targeted, text)):
+            // When an inline comment touches a header comment, assume the inline slashes were a
+            // typo.
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            mode = .headerCommentDiscussion
+        case let (.headerCommentThrows, .inlineCommentGeneral(tokens, targeted, text)):
+            // When an inline comment touches a header comment, assume the inline slashes were a
+            // typo.
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendThrowsTokens(tokens)
+        case let (.headerCommentThrows, .nonComment(text)):
             finalizeCommentBlock(indentationGuide: text)
             output.append(text)
             mode = .nonComment
@@ -194,12 +244,18 @@ public class Parser {
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             commentBlock.appendParameter(name: name, tokens: tokens)
             mode = .headerCommentParameter
-        case let (.inlineComment, .headerCommentReturnStart(tokens, targeted, text)):
+        case let (.inlineComment, .headerCommentReturnsStart(tokens, targeted, text)):
             // When an inline comment touches a header comment, assume the inline slashes were a
             // typo.
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
-            commentBlock.appendReturnTokens(tokens)
-            mode = .headerCommentReturn
+            commentBlock.appendReturnsTokens(tokens)
+            mode = .headerCommentReturns
+        case let (.inlineComment, .headerCommentThrowsStart(tokens, targeted, text)):
+            // When an inline comment touches a header comment, assume the inline slashes were a
+            // typo.
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendThrowsTokens(tokens)
+            mode = .headerCommentThrows
         case let (.inlineComment, .inlineCommentBlank(targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
         case let (.inlineComment, .inlineCommentGeneral(tokens, targeted, text)):
@@ -224,10 +280,14 @@ public class Parser {
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             commentBlock.appendParameter(name: name, tokens: tokens)
             mode = .headerCommentParameter
-        case let (.nonComment, .headerCommentReturnStart(tokens, targeted, text)):
+        case let (.nonComment, .headerCommentReturnsStart(tokens, targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
-            commentBlock.appendReturnTokens(tokens)
-            mode = .headerCommentReturn
+            commentBlock.appendReturnsTokens(tokens)
+            mode = .headerCommentReturns
+        case let (.nonComment, .headerCommentThrowsStart(tokens, targeted, text)):
+            commentBlock.saveOriginalLine(targeted: targeted, text: text)
+            commentBlock.appendThrowsTokens(tokens)
+            mode = .headerCommentThrows
         case let (.nonComment, .inlineCommentBlank(targeted, text)):
             commentBlock.saveOriginalLine(targeted: targeted, text: text)
             mode = .inlineComment
@@ -238,7 +298,7 @@ public class Parser {
         case let (.nonComment, .nonComment(text)):
             output.append(text)
         }
-    } 
+    }
 
     // MARK: Private Methods
 

@@ -243,13 +243,13 @@ final class LexerTests: XCTestCase {
         )
     }
 
-    /// The first line of a return value description should be interpreted as
+    /// The first line of a returns value description should be interpreted as
     /// `LineType.headerCommentReturnStart`.
-    func testHeaderCommentReturnStart() {
+    func testHeaderCommentReturnsStart() {
         // Normal
         XCTAssertEqual(
             Lexer.lineType("/// - Returns: Token", lineNumber: 0, targetRanges: [0...1]),
-            .headerCommentReturnStart(
+            .headerCommentReturnsStart(
                 tokens: ["Token"],
                 targeted: true,
                 text: "/// - Returns: Token"
@@ -259,7 +259,7 @@ final class LexerTests: XCTestCase {
         // Slash typo
         XCTAssertEqual(
             Lexer.lineType("// - Returns: Token", lineNumber: 0, targetRanges: [0...1]),
-            .headerCommentReturnStart(
+            .headerCommentReturnsStart(
                 tokens: ["Token"],
                 targeted: true,
                 text: "// - Returns: Token"
@@ -269,7 +269,7 @@ final class LexerTests: XCTestCase {
         // Not targeted
         XCTAssertEqual(
             Lexer.lineType("/// - Returns: Token", lineNumber: 10, targetRanges: [0...1]),
-            .headerCommentReturnStart(
+            .headerCommentReturnsStart(
                 tokens: ["Token"],
                 targeted: false,
                 text: "/// - Returns: Token"
@@ -279,10 +279,54 @@ final class LexerTests: XCTestCase {
         // No target ranges
         XCTAssertEqual(
             Lexer.lineType("/// - Returns: Token", lineNumber: 0, targetRanges: []),
-            .headerCommentReturnStart(
+            .headerCommentReturnsStart(
                 tokens: ["Token"],
                 targeted: true,
                 text: "/// - Returns: Token"
+            )
+        )
+    }
+
+    /// The first line of a throws value description should be interpreted as
+    /// `LineType.headerCommentThrowsStart`.
+    func testHeaderCommentThrowsStart() {
+        // Normal
+        XCTAssertEqual(
+            Lexer.lineType("/// - Throws: Token", lineNumber: 0, targetRanges: [0...1]),
+            .headerCommentThrowsStart(
+                tokens: ["Token"],
+                targeted: true,
+                text: "/// - Throws: Token"
+            )
+        )
+
+        // Slash typo
+        XCTAssertEqual(
+            Lexer.lineType("// - Throws: Token", lineNumber: 0, targetRanges: [0...1]),
+            .headerCommentThrowsStart(
+                tokens: ["Token"],
+                targeted: true,
+                text: "// - Throws: Token"
+            )
+        )
+
+        // Not targeted
+        XCTAssertEqual(
+            Lexer.lineType("/// - Throws: Token", lineNumber: 10, targetRanges: [0...1]),
+            .headerCommentThrowsStart(
+                tokens: ["Token"],
+                targeted: false,
+                text: "/// - Throws: Token"
+            )
+        )
+
+        // No target ranges
+        XCTAssertEqual(
+            Lexer.lineType("/// - Throws: Token", lineNumber: 0, targetRanges: []),
+            .headerCommentThrowsStart(
+                tokens: ["Token"],
+                targeted: true,
+                text: "/// - Throws: Token"
             )
         )
     }
