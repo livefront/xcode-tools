@@ -3,19 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>IDECodeSnippetCompletionPrefix</key>
-	<string>m8pm</string>
+	<string>m8nt</string>
 	<key>IDECodeSnippetCompletionScopes</key>
 	<array>
 		<string>ClassImplementation</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>// MARK: Private Methods</string>
+	<string>// MARK: Nested Types</string>
 	<key>IDECodeSnippetIdentifier</key>
-	<string>1DD80BEE-427D-4BA6-B3A9-F433AEDFF216</string>
+	<string>C7ED87C4-3C08-419C-8394-55EBCABDD0E8</string>
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>Mark #8 Private Methods</string>
+	<string>Mark #8 Nested Types</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>
