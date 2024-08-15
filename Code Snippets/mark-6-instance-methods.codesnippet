@@ -3,19 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>IDECodeSnippetCompletionPrefix</key>
-	<string>m2ip</string>
+	<string>m6im</string>
 	<key>IDECodeSnippetCompletionScopes</key>
 	<array>
 		<string>ClassImplementation</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>// MARK: Instance Properties</string>
+	<string>// MARK: Instance Methods</string>
 	<key>IDECodeSnippetIdentifier</key>
-	<string>76AF3871-5C4A-40D7-BA72-1155BB03F504</string>
+	<string>5EC05E1B-1B61-4754-8F84-59236C36AFA5</string>
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>Mark #2 Instance Properties</string>
+	<string>Mark #6 Instance Methods</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>
