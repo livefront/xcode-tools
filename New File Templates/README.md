@@ -23,7 +23,7 @@ is responsible for receiving a `Route` enum value and executing the correspondin
 correct screen of the app. This template creates a new coordinator file which will handle 
 navigation for a particular area or collection of screens within the app.
 
-## SwiftUI Feature Template
+## Pentimento SwiftUI Feature Template
 
 This template generates a collection of related files for a new screen of an application. These
 files form the core components of Livefront's in-house Pentimento architecture. Pentimento is a 
