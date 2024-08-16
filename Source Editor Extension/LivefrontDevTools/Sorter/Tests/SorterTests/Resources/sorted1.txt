@@ -1,0 +1,67 @@
+import SwiftUI
+
+struct ContentView: View {
+    // MARK: Types
+
+    // Hello, comment here :)
+    private enum JustAnEnum: Int {
+        case noSortMe = 0
+        case dontSortThis = 1
+    }
+
+    typealias Test = String
+
+    typealias AnotherTest = String
+
+    // MARK: Misc
+
+    func outOfPlaceFunction() {}
+
+    // This should go last among the properties.
+    let uselessString = "hi :)"
+
+    var someString: String?
+
+    var otherString: String?
+
+    // Don't mind me, just a nice little comment
+    static func randomFunctionIDunno() {
+        // This is the body of the function
+        var noSortTheBody = "please"
+        var dontSortMe = true
+    }
+
+    /// Got a documentation comment on this bad boy oh yeah!
+    var aUselessString: String? {
+        didSet {
+            print("hello :3")
+        }
+    }
+
+    // MARK: UI
+
+    /// This is part of the UI but it should go after the body
+    var laterUIPart: some View {
+        HStack {
+            Text("Hi I do nothing :)")
+        }
+    }
+
+    var body: some View {
+        VStack {
+            Image(systemName: "globe")
+                .imageScale(.large)
+                .foregroundColor(.accentColor)
+            Text("Hello, world!")
+        }
+        .padding()
+    }
+}
+
+// MARK: - Previews
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
