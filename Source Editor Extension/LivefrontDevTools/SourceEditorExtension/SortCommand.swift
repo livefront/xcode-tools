@@ -4,19 +4,19 @@ import XcodeKit
 
 class SortCommand: NSObject, XCSourceEditorCommand {
     func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void) {
-        // Get the lines and the selection (selection can include where the pointer is, not
+        // Get the lines and the selection (the selection can include where the cursor is, not
         // just a highlighted region of code).
         if let selection = invocation.buffer.selections.firstObject as? XCSourceTextRange,
            let selectedLines: [String] = invocation.buffer.lines as? [String],
            !selectedLines.isEmpty {
-            // Retrieve the contents of the current source editor.
+            // Determine the exact start and end of the highlighted section.
             let startLine = selection.start.line
             let endLine = min(selection.end.line, selectedLines.count - 1)
 
-            // If no data is actually "selected," then sort the entire file.
-            if startLine == endLine, selection.start.column == selection.end.column {
+            // If no data is actually selected, then sort the entire file.
+            if startLine > endLine || (startLine == endLine && selection.start.column == selection.end.column) {
                 // Sort the entire file.
-                let sortedFile = Sorter.sortFile(selectedLines)
+                let sortedFile = Sorter.sort(selectedLines)
 
                 // Update the source with the newly sorted code.
                 invocation.buffer.lines.removeAllObjects()

@@ -1,0 +1,89 @@
+import SwiftUI
+
+struct ContentView: View {
+    // MARK: Types
+    
+    typealias Test = String
+    
+    /// This enum should be recursively sorted.
+    enum SortThis {
+        case secondCase
+        case thisOneLast
+        case meFirst
+    }
+
+    // This one should not be sorted.
+    private enum JustAnEnum: Int {
+        case noSortMe = 0
+        case dontSortThis = 1
+    }
+    
+    /// Protocols should be sorted too even though the functions have no brackets :3
+    ///
+    protocol TrickyTricky {
+        /// Second method
+        func secondOne()
+        
+        /// First method
+        func firstOne(parameterOne: String,
+                     parameterTwo: String)
+    }
+
+    typealias AnotherTest = TypeOne
+                                & TypeTwo
+                                & TypeThree
+
+    // MARK: Misc
+
+    func outOfPlaceFunction() {}
+
+    // This should go last among the properties.
+    let uselessString = "hi"
+
+    @InlineMacro var someString: String?
+
+    var otherString: String?
+
+    // Don't mind me, just a nice little comment
+    @NotInLineMacro
+    static func randomFunctionIDunno() {
+        // This is the body of the function
+        var noSortTheBody = "please"
+        var dontSortMe = true
+    }
+
+    /// Got a documentation comment on this bad boy oh yeah!
+    ///
+    var aUselessString: String? {
+        didSet {
+            print("hello :3")
+        }
+    }
+
+    // MARK: UI
+
+    /// This is part of the UI but it should go after the body
+    var laterUIPart: some View {
+        HStack {
+            Text("Hi I do nothing")
+        }
+    }
+
+    var body: some View {
+        VStack {
+            Image(systemName: "globe")
+                .imageScale(.large)
+                .foregroundColor(.accentColor)
+            Text("Hello, world!")
+        }
+        .padding()
+    }
+}
+
+// MARK: - Previews
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}

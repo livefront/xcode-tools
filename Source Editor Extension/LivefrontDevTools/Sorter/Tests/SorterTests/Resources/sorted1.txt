@@ -2,50 +2,66 @@ import SwiftUI
 
 struct ContentView: View {
     // MARK: Types
+    
+    typealias AnotherTest = TypeOne
+                                & TypeTwo
+                                & TypeThree
+    typealias Test = String
 
-    // Hello, comment here :)
+    // This one should not be sorted.
     private enum JustAnEnum: Int {
         case noSortMe = 0
         case dontSortThis = 1
     }
 
-    typealias Test = String
+    /// This enum should be recursively sorted.
+    enum SortThis {
+        case meFirst
 
-    typealias AnotherTest = String
+        case secondCase
+
+        case thisOneLast
+    }
+
+    /// Protocols should be sorted too even though the functions have no brackets :3
+    ///
+    protocol TrickyTricky {
+        /// First method
+        func firstOne(parameterOne: String,
+                     parameterTwo: String)
+
+        /// Second method
+        func secondOne()
+    }
 
     // MARK: Misc
 
-    func outOfPlaceFunction() {}
-
-    // This should go last among the properties.
-    let uselessString = "hi :)"
-
-    var someString: String?
-
-    var otherString: String?
-
-    // Don't mind me, just a nice little comment
-    static func randomFunctionIDunno() {
-        // This is the body of the function
-        var noSortTheBody = "please"
-        var dontSortMe = true
-    }
-
     /// Got a documentation comment on this bad boy oh yeah!
+    ///
     var aUselessString: String? {
         didSet {
             print("hello :3")
         }
     }
 
-    // MARK: UI
+    var otherString: String?
 
-    /// This is part of the UI but it should go after the body
-    var laterUIPart: some View {
-        HStack {
-            Text("Hi I do nothing :)")
-        }
+    @InlineMacro var someString: String?
+
+    // This should go last among the properties.
+    let uselessString = "hi"
+
+    func outOfPlaceFunction() {}
+
+    // Don't mind me, just a nice little comment
+    @NotInLineMacro
+    static func randomFunctionIDunno() {
+        // This is the body of the function
+        var noSortTheBody = "please"
+        var dontSortMe = true
     }
+
+    // MARK: UI
 
     var body: some View {
         VStack {
@@ -55,6 +71,13 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+    }
+
+    /// This is part of the UI but it should go after the body
+    var laterUIPart: some View {
+        HStack {
+            Text("Hi I do nothing")
+        }
     }
 }
 
