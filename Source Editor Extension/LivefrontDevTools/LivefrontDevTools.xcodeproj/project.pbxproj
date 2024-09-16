@@ -16,6 +16,8 @@
 		8B686F242AF4BAC90030DA0C /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B686F232AF4BAC90030DA0C /* SourceEditorExtension.swift */; };
 		8B686F262AF4BAC90030DA0C /* FormatCommentsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B686F252AF4BAC90030DA0C /* FormatCommentsCommand.swift */; };
 		8B686F2B2AF4BAC90030DA0C /* Livefront.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8B686F1F2AF4BAC90030DA0C /* Livefront.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8B6B1FEA2C6EBE5E004D32E4 /* Sorter in Frameworks */ = {isa = PBXBuildFile; productRef = 8B6B1FE92C6EBE5E004D32E4 /* Sorter */; };
+		8B6B1FEB2C6F0BAE004D32E4 /* SortCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDBF8A32C692669000F0047 /* SortCommand.swift */; };
 		8BB9DC882AF4BD7E00ED1EF0 /* XcodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B686F0B2AF4BA370030DA0C /* XcodeKit.framework */; };
 		8BB9DC892AF4BD7E00ED1EF0 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B686F0B2AF4BA370030DA0C /* XcodeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8BB9DC8D2AF4C1C600ED1EF0 /* CommentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 8BB9DC8C2AF4C1C600ED1EF0 /* CommentParser */; };
@@ -80,8 +82,10 @@
 		8B686F252AF4BAC90030DA0C /* FormatCommentsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatCommentsCommand.swift; sourceTree = "<group>"; };
 		8B686F272AF4BAC90030DA0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B686F282AF4BAC90030DA0C /* SourceEditorExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SourceEditorExtension.entitlements; sourceTree = "<group>"; };
+		8B6B1FE82C6EBE33004D32E4 /* Sorter */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Sorter; sourceTree = "<group>"; };
 		8BB9DC8B2AF4C14C00ED1EF0 /* CommentParser */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CommentParser; sourceTree = "<group>"; };
 		8BDA518B2B070CEE0052AC07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8BDBF8A32C692669000F0047 /* SortCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortCommand.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B686F202AF4BAC90030DA0C /* Cocoa.framework in Frameworks */,
+				8B6B1FEA2C6EBE5E004D32E4 /* Sorter in Frameworks */,
 				8BB9DC8D2AF4C1C600ED1EF0 /* CommentParser in Frameworks */,
 				8BB9DC882AF4BD7E00ED1EF0 /* XcodeKit.framework in Frameworks */,
 			);
@@ -115,11 +120,12 @@
 		8B686ECC2AF4B9770030DA0C = {
 			isa = PBXGroup;
 			children = (
-				8BB9DC8B2AF4C14C00ED1EF0 /* CommentParser */,
 				8B686ED72AF4B9770030DA0C /* LivefrontDevTools */,
 				8B686EE92AF4B9780030DA0C /* LivefrontDevToolsTests */,
 				8B686F222AF4BAC90030DA0C /* SourceEditorExtension */,
 				8B686F082AF4BA370030DA0C /* Frameworks */,
+				8BB9DC8B2AF4C14C00ED1EF0 /* CommentParser */,
+				8B6B1FE82C6EBE33004D32E4 /* Sorter */,
 				8B686ED62AF4B9770030DA0C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -175,6 +181,7 @@
 		8B686F222AF4BAC90030DA0C /* SourceEditorExtension */ = {
 			isa = PBXGroup;
 			children = (
+				8BDBF8A32C692669000F0047 /* SortCommand.swift */,
 				8B686F232AF4BAC90030DA0C /* SourceEditorExtension.swift */,
 				8B686F252AF4BAC90030DA0C /* FormatCommentsCommand.swift */,
 				8B686F272AF4BAC90030DA0C /* Info.plist */,
@@ -239,6 +246,7 @@
 			name = Livefront;
 			packageProductDependencies = (
 				8BB9DC8C2AF4C1C600ED1EF0 /* CommentParser */,
+				8B6B1FE92C6EBE5E004D32E4 /* Sorter */,
 			);
 			productName = SourceEditorExtension;
 			productReference = 8B686F1F2AF4BAC90030DA0C /* Livefront.appex */;
@@ -252,7 +260,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					8B686ED42AF4B9770030DA0C = {
 						CreatedOnToolsVersion = 15.0;
@@ -337,6 +345,7 @@
 			files = (
 				8B686F242AF4BAC90030DA0C /* SourceEditorExtension.swift in Sources */,
 				8B686F262AF4BAC90030DA0C /* FormatCommentsCommand.swift in Sources */,
+				8B6B1FEB2C6F0BAE004D32E4 /* SortCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +399,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -410,6 +420,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 2024.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -453,6 +464,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -467,6 +479,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 2024.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -485,6 +498,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"LivefrontDevTools/Preview Content\"";
 				DEVELOPMENT_TEAM = Q6SZ37AHX7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -495,7 +509,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2023.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevTools;
 				PRODUCT_NAME = "Livefront Developer Tools";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -514,6 +527,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"LivefrontDevTools/Preview Content\"";
 				DEVELOPMENT_TEAM = Q6SZ37AHX7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -524,7 +538,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2023.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevTools;
 				PRODUCT_NAME = "Livefront Developer Tools";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -540,10 +553,10 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = Q6SZ37AHX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevToolsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -560,10 +573,10 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = Q6SZ37AHX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevToolsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -580,6 +593,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = Q6SZ37AHX7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -591,7 +605,6 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevTools.SourceEditorExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -608,6 +621,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = Q6SZ37AHX7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -619,7 +633,6 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.LivefrontDevTools.SourceEditorExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -670,6 +683,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8B6B1FE92C6EBE5E004D32E4 /* Sorter */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Sorter;
+		};
 		8BB9DC8C2AF4C1C600ED1EF0 /* CommentParser */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CommentParser;
