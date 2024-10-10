@@ -6,7 +6,7 @@
 ///
 enum BlockType: Int, CaseIterable {
     // MARK: Cases
-    
+
     /// An import and any associated comments.
     case importType = 0
 
@@ -21,7 +21,7 @@ enum BlockType: Int, CaseIterable {
 
     /// A function and any associated comments or body.
     case function = 4
-    
+
     /// An initialization function and any associated comments or body.
     case initType = 5
 

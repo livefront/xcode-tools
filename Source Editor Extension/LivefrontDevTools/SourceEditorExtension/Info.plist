@@ -22,7 +22,7 @@
 					<key>XCSourceEditorCommandIdentifier</key>
 					<string>$(PRODUCT_BUNDLE_IDENTIFIER).SortCommand</string>
 					<key>XCSourceEditorCommandName</key>
-					<string>Alphabetize</string>
+					<string>Alphabetize (BETA)</string>
 				</dict>
 			</array>
 			<key>XCSourceEditorExtensionPrincipalClass</key>

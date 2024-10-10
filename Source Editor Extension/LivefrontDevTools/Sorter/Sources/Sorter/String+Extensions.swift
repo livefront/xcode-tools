@@ -2,20 +2,21 @@
 
 extension String {
     // MARK: Properties
-    
-    /// Determine if a string (representing a line of code) is one of the `BlockType`s used for sorting code into blocks.
+
+    /// Determine if a string (representing a line of code) is one of the `BlockType`s used for
+    /// sorting code into blocks.
     var blockType: BlockType? {
         for blockType in BlockType.allCases where contains(any: blockType.keywords) {
             return blockType
         }
         return nil
     }
-    
-    /// Return only the lowercased letters of a string, ignoring special characters.
+
+    /// Return only the lowercased letters and numbers of a string, ignoring special characters.
     var lowercasedNonSpecial: String { filter { $0.isLetter || $0.isNumber }.lowercased() }
 
     // MARK: Methods
-    
+
     /// Determines if a string contains any of substrings included in the array.
     ///
     /// - Parameter strings: The array of substrings that the string might contain.
@@ -24,7 +25,7 @@ extension String {
     func contains(any strings: [String]) -> Bool {
         strings.contains { contains($0) }
     }
-    
+
     /// Determine the name to use for sorting by looking at the word right after the keyword.
     ///
     /// - Parameter type: The `BlockType` of the string used to search for the keyword.
@@ -41,4 +42,3 @@ extension String {
         return parsed[index + 1].lowercasedNonSpecial
     }
 }
-
