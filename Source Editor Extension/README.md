@@ -25,4 +25,5 @@ It's commands are grouped in the "Livefront" submenu of the Xcode editor menu.
 7. Go to `Editor > Livefront` to use the new source editor commands.
 
 ## Commands
+- **Alphabetize (BETA)**: Alphabetically sorts the declarations in a whole file or selected lines.
 - **Format Comments**: Formats the comments of a whole file or selection of lines to match Livefront's Swift comment style guidelines. 
